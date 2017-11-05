@@ -13,3 +13,8 @@ Provide the following functionality to all visitors (without authentication):
 
 Authenticated administrators have additional options, available in the normal views of the app. They should have the ability to:
 •	View the profiles of all users
+
+
+User Silvena (Silvena Shtereva):
+-Join public chat rooms
+-Create and join private chat rooms (with password protection)
