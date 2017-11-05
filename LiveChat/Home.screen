@@ -1,0 +1,73 @@
+﻿<?Infragistics.Models format="xaml" version="29" appVersion="9.2.1000.51"?>
+<Page xmlns="http://prototypes.infragistics.com/"
+                                                                                   Id="33a77e45-d0cc-4332-926b-1e1d04ac22c4">
+    <Page.Content>
+        <Content Width="1024" Height="768" Id="d757c77b-80d2-4e15-8eb9-8ad4121ea827">
+            <Content.Layers>
+                <Layer Id="516674d3-e046-4e2e-b5e0-19c301593494" Panel.Layout="Stretch" />
+                <AnnotationsLayer Id="4dd2a6b4-8ed3-4dd6-ab27-83c0c667c0f4" Panel.Layout="Stretch" />
+            </Content.Layers>
+            <Content.Viewbox>
+                <Viewbox Size="1024,768" Id="8a30b8b0-fb90-4b5c-9330-28ea8164741c" />
+            </Content.Viewbox>
+            <Content.GuidesInfo>
+                <GuidesInfo Id="af5a3045-b58e-490f-930b-7a54bf18d405" />
+            </Content.GuidesInfo>
+        </Content>
+    </Page.Content>
+    <Page.Device>
+        <DeviceInfo Id="Browser" Orientation="None" />
+    </Page.Device>
+    <Page.Scenes>
+        <Scene Title="Start" Created="11/05/2017 19:15:25" Id="25409d24-a196-49e6-a058-c7b9f2c208f0">
+            <Scene.KeyFrames>
+                <KeyFrame Id="5e59df0c-d433-4659-b990-ddf27c815a4f">
+                    <KeyFrame.Operations>
+                        <Add Property="Panel.Children" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <Title RichText="Live Chat" FontFamily="Open Sans" Id="42756003-e344-44eb-ab92-98d7b7f77cc2" Panel.Bounds="437,324,5*{5,2147483647},5*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <Button Text="Login" FontFamily="Open Sans" Id="4857c2b2-4656-44ae-92d6-b875f913e9d5" Panel.Bounds="408,392,80{5,2147483647},35{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <Button Text="Register" FontFamily="Open Sans" Id="1f871d54-1e1c-4804-9d8d-1dc6b259df6e" Panel.Bounds="535,392,80{5,2147483647},35{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <Link Text="Login as Guest" FontFamily="Open Sans" FontStyle="Normal|Underline" Id="8374375c-8e0e-42b5-9bb4-71b00d8b5b6f" Panel.Bounds="461,450,5*{5,2147483647},5*{5,2147483647}">
+                                    <Link.Click>
+                                        <CommandNavigate Screen="/LogAsGuest.screen" Created="11/05/2017 19:20:23" Id="357d99e4-3cae-4d19-87f4-674b147cb3de">
+                                            <CommandNavigate.Transition>
+                                                <NavigateTransition Duration="0" />
+                                            </CommandNavigate.Transition>
+                                        </CommandNavigate>
+                                    </Link.Click>
+                                </Link>
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Before="42756003-e344-44eb-ab92-98d7b7f77cc2" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <Image Id="a1143460-a29a-4824-84fc-436790316813" Panel.Bounds="223,206,573{5,2147483647},370{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Before="a1143460-a29a-4824-84fc-436790316813" Target="516674d3-e046-4e2e-b5e0-19c301593494">
+                            <Add.Item>
+                                <ContainerBox Id="7801a185-c793-47b6-a856-59ff42db43db" Panel.Bounds="223,207,573{5,2147483647},369{5,2147483647}">
+                                    <ContainerBox.Content>
+                                        <Container ClipToContainer="True" Id="1ef513af-d71f-4a05-bd68-d08a31aac752" />
+                                    </ContainerBox.Content>
+                                </ContainerBox>
+                            </Add.Item>
+                        </Add>
+                    </KeyFrame.Operations>
+                </KeyFrame>
+            </Scene.KeyFrames>
+        </Scene>
+    </Page.Scenes>
+</Page>
