@@ -1,5 +1,7 @@
 TW - Live Chat
 
+https://trello.com/b/TvMdnnrt/teamwork-ui-prototype
+
 USER sap.phire (Yavor Vasilev) will make points:
 
 -Customize their profile with a picture and other personal details
@@ -18,3 +20,6 @@ Authenticated administrators have additional options, available in the normal vi
 User Silvena (Silvena Shtereva):
 -Join public chat rooms
 -Create and join private chat rooms (with password protection)
+
+"04.Reserve Nickname" - TsvetomirMarkov 
+"08.Join all chat rooms, including password protected ones" - TsvetomirMarkov
