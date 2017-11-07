@@ -21,5 +21,5 @@ User Silvena (Silvena Shtereva):
 -Join public chat rooms
 -Create and join private chat rooms (with password protection)
 
-"04.Reserve Nickname" - Tsvetomir Markov 
-"08.Join all chat rooms, including password protected ones" - Tsvetomir Markov
+"04.Reserve Nickname" - TsvetomirMarkov 
+"08.Join all chat rooms, including password protected ones" - TsvetomirMarkov
