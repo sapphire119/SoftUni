@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01. Dangerous Floor", "01. Dangerous Floor\01. Dangerous Floor.csproj", "{FC215919-F2E2-4D8D-9D89-552FC724661D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. Crypto Master", "02. Crypto Master\02. Crypto Master.csproj", "{FAD26154-A08E-41A3-B0EC-7217E1ACF531}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC215919-F2E2-4D8D-9D89-552FC724661D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC215919-F2E2-4D8D-9D89-552FC724661D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC215919-F2E2-4D8D-9D89-552FC724661D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC215919-F2E2-4D8D-9D89-552FC724661D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAD26154-A08E-41A3-B0EC-7217E1ACF531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD26154-A08E-41A3-B0EC-7217E1ACF531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAD26154-A08E-41A3-B0EC-7217E1ACF531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD26154-A08E-41A3-B0EC-7217E1ACF531}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BAB06D52-48C9-4870-9026-F8559431556B}
+	EndGlobalSection
+EndGlobal
