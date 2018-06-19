@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Суматор", "Суматор\Суматор.csproj", "{C3DB46FC-E471-4643-8F53-F147CDDE0C28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sumator", "Sumator\Sumator.csproj", "{C71595D3-B48E-4572-9C6D-CC66854F5EE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BGN-в-ЕВРО прилоение", "BGN-в-ЕВРО прилоение\BGN-в-ЕВРО прилоение.csproj", "{F25EB0AE-51BB-4E0E-B068-9BE9744B962B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catch Me", "Catch Me\Catch Me.csproj", "{74A2FA31-FEE7-45C0-93FB-D76C068272F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "конвертор за валути", "конвертор за валути\конвертор за валути.csproj", "{4FC7B8B3-D407-4E30-B45B-450CCC28318A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Точка и правоъгълник", "Точка и правоъгълник\Точка и правоъгълник.csproj", "{4BD16228-3646-4285-99F3-8ABCC63320E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3DB46FC-E471-4643-8F53-F147CDDE0C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3DB46FC-E471-4643-8F53-F147CDDE0C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3DB46FC-E471-4643-8F53-F147CDDE0C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3DB46FC-E471-4643-8F53-F147CDDE0C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C71595D3-B48E-4572-9C6D-CC66854F5EE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C71595D3-B48E-4572-9C6D-CC66854F5EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C71595D3-B48E-4572-9C6D-CC66854F5EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C71595D3-B48E-4572-9C6D-CC66854F5EE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F25EB0AE-51BB-4E0E-B068-9BE9744B962B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25EB0AE-51BB-4E0E-B068-9BE9744B962B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25EB0AE-51BB-4E0E-B068-9BE9744B962B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25EB0AE-51BB-4E0E-B068-9BE9744B962B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74A2FA31-FEE7-45C0-93FB-D76C068272F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74A2FA31-FEE7-45C0-93FB-D76C068272F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74A2FA31-FEE7-45C0-93FB-D76C068272F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74A2FA31-FEE7-45C0-93FB-D76C068272F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FC7B8B3-D407-4E30-B45B-450CCC28318A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FC7B8B3-D407-4E30-B45B-450CCC28318A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FC7B8B3-D407-4E30-B45B-450CCC28318A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FC7B8B3-D407-4E30-B45B-450CCC28318A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BD16228-3646-4285-99F3-8ABCC63320E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BD16228-3646-4285-99F3-8ABCC63320E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BD16228-3646-4285-99F3-8ABCC63320E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BD16228-3646-4285-99F3-8ABCC63320E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
