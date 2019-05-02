@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "Default": "Server=.\\SqlExpress;Database=ProductShop;Trusted_Connection=True",
+    "Dev": "Server=.\\SqlExpress;Database=ProductShop_dev;Trusted_Connection=True"
+  }
+}
