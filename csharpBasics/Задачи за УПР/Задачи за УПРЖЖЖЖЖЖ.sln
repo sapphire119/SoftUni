@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Генератор за тъпи пароли", "Генератор за тъпи пароли\Генератор за тъпи пароли.csproj", "{9FEA4BAB-6EB2-44B8-9AC5-3D5C33B9F8F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "18. Магически числа", "18. Магически числа\18. Магически числа.csproj", "{3B25D43C-167F-4C9E-B996-0C43BAF4F543}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19. Специални числа", "19. Специални числа\19. Специални числа.csproj", "{A4AB2AA6-CB90-4856-B13F-E7F0971E27AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Хистограма", "Хистограма\Хистограма.csproj", "{A02058C0-085D-4FED-82CD-85B514CFE7A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Деление без остатък", "Деление без остатък\Деление без остатък.csproj", "{5C41ECAD-7548-4D5D-AC14-9A73A38F72AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Умната Лили", "Умната Лили\Умната Лили.csproj", "{0E09CD3F-9D72-4BEF-B6DD-3C9B09BBBFAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FEA4BAB-6EB2-44B8-9AC5-3D5C33B9F8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEA4BAB-6EB2-44B8-9AC5-3D5C33B9F8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEA4BAB-6EB2-44B8-9AC5-3D5C33B9F8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEA4BAB-6EB2-44B8-9AC5-3D5C33B9F8F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B25D43C-167F-4C9E-B996-0C43BAF4F543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B25D43C-167F-4C9E-B996-0C43BAF4F543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B25D43C-167F-4C9E-B996-0C43BAF4F543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B25D43C-167F-4C9E-B996-0C43BAF4F543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4AB2AA6-CB90-4856-B13F-E7F0971E27AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4AB2AA6-CB90-4856-B13F-E7F0971E27AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4AB2AA6-CB90-4856-B13F-E7F0971E27AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4AB2AA6-CB90-4856-B13F-E7F0971E27AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02058C0-085D-4FED-82CD-85B514CFE7A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A02058C0-085D-4FED-82CD-85B514CFE7A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A02058C0-085D-4FED-82CD-85B514CFE7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A02058C0-085D-4FED-82CD-85B514CFE7A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C41ECAD-7548-4D5D-AC14-9A73A38F72AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C41ECAD-7548-4D5D-AC14-9A73A38F72AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C41ECAD-7548-4D5D-AC14-9A73A38F72AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C41ECAD-7548-4D5D-AC14-9A73A38F72AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E09CD3F-9D72-4BEF-B6DD-3C9B09BBBFAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E09CD3F-9D72-4BEF-B6DD-3C9B09BBBFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E09CD3F-9D72-4BEF-B6DD-3C9B09BBBFAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E09CD3F-9D72-4BEF-B6DD-3C9B09BBBFAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
