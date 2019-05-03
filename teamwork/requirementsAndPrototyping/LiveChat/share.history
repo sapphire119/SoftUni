@@ -1,6 +1,0 @@
-<?Infragistics.Models format="xaml"?>
-<ShareHistory xmlns="http://prototypes.infragistics.com/shares/">
-    <ShareHistory.Histories>
-        <ShareUserHistory ShareUserId="35e72e76bb094676a19f1f24c26fba44" />
-    </ShareHistory.Histories>
-</ShareHistory>
