@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="not-supported-browser"><![endif]-->
+<!--[if IE 9]><html class="ie9"> <![endif]-->
+<!--[if !IE]><!--><html><!--<![endif]-->
+    <head>
+        <base href='/' />
+        <script type='text/javascript'>
+            var loc = window.location.toString().replace(window.location.hash, '');
+            document.getElementsByTagName('base')[0].href = loc.substring(0, loc.lastIndexOf('/') + 1) + 'player/';
+        </script>
+        <meta http-equiv='x-ua-compatible' content='IE=edge' />
+
+        <meta charset="UTF-8"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, width=device-width, minimal-ui"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimal-ui" media="(device-height: 568px)"/>
+        <meta name="google" content="notranslate" />
+        <link rel="apple-touch-icon-precomposed" href="css/images/apple-touch-indigo-icon.jpg"/>
+        <link rel="stylesheet" type="text/css" href="css/player.css" />
+        <script  type="text/javascript" src="lib/require.js"></script>
+    <script data-uri="../project.share" type="application/xml"><?Infragistics.Models format="xaml" version="2"?><SharedProject xmlns="http://prototypes.infragistics.com/shares/" Name="02.GroopChat" StartScreen="/Join Chat Rooms.screen" Version="Dragon.ReleaseV9_20171019.4 - 9.2.1000.51" MajorVersion="9"><SharedProject.Options><ShareOptions ShowAnnotations="True" Comments="Open" /></SharedProject.Options><SharedProject.Toc><Toc><Toc.Root><TocEntry Label="02.GroopChat" Type="project"><TocEntry.Target><TocEntryTarget Project="project.share" /></TocEntry.Target><TocEntry.Items><TocEntry Label="Join Chat Rooms" Type="screen"><TocEntry.Target><TocEntryTarget Screen="/Join Chat Rooms.screen" /></TocEntry.Target><TocEntry.Items><TocEntry Label="Start" Type="state"><TocEntry.Target><TocEntryTarget State="fe1fbbb6-3ea5-4e05-a014-ca728360e809" /></TocEntry.Target></TocEntry></TocEntry.Items></TocEntry></TocEntry.Items></TocEntry></Toc.Root></Toc></SharedProject.Toc><SharedProject.Resources><SharedResource Reference="/Join Chat Rooms.screen" Type="Screen" /></SharedProject.Resources></SharedProject></script>
+<script data-uri="../join%20chat%20rooms.screen" type="application/xml"><?Infragistics.Models format="xaml" version="29"?><Page xmlns="http://prototypes.infragistics.com/" xmlns:d="http://prototypes.infragistics.com/views/design" Id="61b4ca57-680a-4783-94b5-aeacc4a0bd76" d:Design.ShowGuides="False"><Page.Content><Content Width="1024" Height="768" Id="18affe49-cff0-4e02-9777-80126ce4287e"><Content.Layers><Layer Id="a6244107-d1ec-45ae-bed9-3ce3c2635048" Panel.Layout="Stretch" /><AnnotationsLayer Id="cb20c6da-bb15-4e76-9027-d23eba576309" Panel.Layout="Stretch" /></Content.Layers><Content.Viewbox><Viewbox Size="1024,768" Id="2be6c1f2-f7c2-45c1-ace8-9dce9e402f6c" /></Content.Viewbox><Content.GuidesInfo><GuidesInfo Id="8e8c0c66-26cc-48be-bdc7-013bcc57e2a2" /></Content.GuidesInfo></Content></Page.Content><Page.Device><DeviceInfo Id="Browser" Orientation="None" /></Page.Device><Page.Scenes><Scene Title="Start" Created="11/07/2017 13:41:37" Id="fe1fbbb6-3ea5-4e05-a014-ca728360e809"><Scene.KeyFrames><KeyFrame Id="8cece38c-f620-4628-90fa-7a50a1b76a37"><KeyFrame.Operations><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><BootstrapBox Id="94145bc1-78bd-4292-a9be-7e00993a4f64" Panel.Layout="Stretch"><BootstrapBox.Content><BootstrapContainer Id="1b0961ac-5ed2-43b4-aaee-daa1a7253d6c"><BootstrapContainer.Children><Row Id="c9960f7a-2a0d-42a4-94de-e79d680d7883"><Row.Children><Column Id="0e177e5b-5b29-44e1-bd28-29c71151a71e" BootstrapContainer.SpanMd="3" BootstrapContainer.SpanSm="3" Panel.Bounds="0,0,0*,609" /><Column Id="5f17b930-226e-40ae-bd93-4d95ba318da7" BootstrapContainer.SpanMd="9" BootstrapContainer.SpanSm="9" BootstrapContainer.OffsetMd="0" /></Row.Children></Row></BootstrapContainer.Children></BootstrapContainer></BootstrapBox.Content></BootstrapBox></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Title RichText="Chat Rooms" FontFamily="Open Sans" Id="37d76126-ed50-45bb-80e2-a32d9991ce95" Panel.Bounds="42,17,140{5,2147483647},0*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Link Text="Work Grop" FontSize="21" FontFamily="Open Sans" FontStyle="Normal|Underline" Id="2983c57c-d274-4560-9244-2324989b960e" BootstrapContainer.HorizontalAlignment="Left" Panel.Bounds="42,155,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-building-o" Id="7f8d9d51-bd39-4aa2-a903-06c1587e5f1f" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="176,152,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Link Text="My Band" FontSize="21" FontFamily="Open Sans" FontStyle="Normal|Underline" Id="9ba991fb-ca5e-4b0a-ae0f-d0a327670a0f" BootstrapContainer.HorizontalAlignment="Left" Panel.Bounds="42,222,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-venus-double" Id="ce73a7e3-f6fd-4b74-8db1-b559af6d322b" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="176,219,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Link Text="General Groop" FontSize="21" FontFamily="Open Sans" FontStyle="Normal|Underline" Id="b4c3d3a6-17ac-427f-bc82-ea0f593e4232" BootstrapContainer.HorizontalAlignment="Left" Panel.Bounds="44,294,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-users" Id="08d6b374-c76c-40aa-b96b-c2650919bac0" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="206,291,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Link Text="Support" FontSize="21" FontFamily="Open Sans" FontStyle="Normal|Underline" Id="f3d1d222-3717-4e6d-8e49-0ffd523d8f0a" BootstrapContainer.HorizontalAlignment="Left" Panel.Bounds="42,371,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-code" Id="be319594-215f-4975-b639-cd965c8147a2" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="176,364,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Title RichText="Join Chat Rooms" FontFamily="Open Sans" Id="fdcb536c-a38e-45a8-b1e9-ad38a0d8afe7" Panel.Bounds="344,36,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><TextBox FontFamily="Open Sans" Id="c9002c9b-53f1-4079-9933-f317f8bf5814" Panel.Bounds="294,197,207{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="Search" Id="531ec44b-11c1-4d44-83bc-5fd03522624a" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="294,197,24{5,2147483647},24{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Label RichText="or" FontFamily="Open Sans" Id="5dbfe630-1666-48c6-ad09-4e8624f529d5" Panel.Bounds="522,200,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Button Text="Create new" FontFamily="Open Sans" Id="cdcf1e5b-4f33-4771-9644-fe7fd6946fd7" Panel.Bounds="583,197,80{5,2147483647},24{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Label RichText="Groops online" FontFamily="Open Sans" Id="1f958ac2-bb59-4775-b03f-8e21babe4f9c" Panel.Bounds="294,375,5*{5,2147483647},5*{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-code" Id="11731bfb-69c0-4191-8c01-ec80922cc9d5" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="286,411,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Add Property="Panel.Children" Target="a6244107-d1ec-45ae-bed9-3ce3c2635048"><Add.Item><Icon CatalogId="fa-building-o" Id="fdd3acd3-597c-4164-8089-f27e4a23d62b" BootstrapContainer.HorizontalAlignment="Center" Panel.Bounds="341,411,32{5,2147483647},32{5,2147483647}" /></Add.Item></Add><Set Property="Content.AutoHeight" Value="True" Target="18affe49-cff0-4e02-9777-80126ce4287e" /></KeyFrame.Operations></KeyFrame></Scene.KeyFrames></Scene></Page.Scenes></Page></script>
+
+        <script type='text/javascript'>
+            function load() {
+                require.config({ baseUrl: 'js/', waitSeconds: 60 });
+                require(['require', 'player_lib'], function (require) {
+                    require(['config'], function (config) {
+                        config.EnableInitialScreen = false;
+                        config.EnableAssetsDownload = false;
+                        config.IsExport = true;
+
+                        config.ShowNotes = true;
+                        config.ShowHighlight = false;
+                        config.EnableExportPrototype = false;                                
+                        config.Locale = 'en';
+                            
+                        config.initialize();
+                        require(['shell', 'devices', 'utils', 'css!../css/player_lib'], function (shell, devices, utils) {
+                            config.ProjectPath = '../project.share';
+                            config.BuildScreenUri = function(screen, project) { return '../index.html#f=' + utils.path.stripExtension(screen); };
+                            new shell.PlayerShell().run();                                    
+                         });
+                     });
+                 });
+             }
+        </script>
+</head>
+    <body onload="load()">
+        <div id="toolbar_toggle" style="display:none">
+            <div></div>
+        </div>
+        <div id="toolbar_layer" style="display:none">
+            <div id="toolbar_toggle_mobile">
+                <div></div>
+            </div>
+            <div id="toolbar_content">                
+            </div>
+        </div>
+        <div id="content_layer" class="ui-helper-loading">
+            <div id="prototype"></div>
+            <div class="ruler"></div>
+            <div id="host_popup_layer"></div>
+            <div id="prototype_loading">                
+                <div class="loading_indicator"></div>
+            </div>
+        </div>
+        <div id="shell_layer">            
+        </div>
+
+        <div class="not-supported-browser-message" style="display:none">
+            <p><strong>Oops!</strong><span> Looks like your browser is not supported, please update to IE9+. </span></p>
+            <p>If you are using a IE9+ browser, maybe it's in compatibility mode? See here how to <a href="http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view" target="_blank">disable compatibility mode</a> and reload.</p>
+        </div>
+    </body>
+</html>
