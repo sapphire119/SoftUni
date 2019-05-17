@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="./node_modules/sammy/lib/min/sammy-latest.min.js"></script>
+    <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+    <script src="./solution.js"></script>
+</head>
+<body>
+<h1>Demo</h1>
+    <a href="#/">Home</a>
+    <a href="#/about">About</a>
+    <a href="#/products/1">Products</a>
+    <div id="root">
+        <form action="#/form" method="post">
+            <label for="user">User</label> <input type="text" id="user" name="username">
+            <label for="password">Password</label> <input type="password" id="password" name="password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

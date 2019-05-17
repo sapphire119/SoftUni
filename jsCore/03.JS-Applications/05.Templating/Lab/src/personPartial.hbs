@@ -1,0 +1,9 @@
+<h2>Name: {{this.name}}</h2>
+<button class="detailsBtn">Details</button>
+<div class="details" id="{{this.id}}">
+    <p>Phone number: {{this.phoneNumber}}</p>
+    <p>Email: {{this.email}}</p>
+    <p>Grades: {{#each grades}}
+        {{@this}}
+        {{/each}}</p>
+</div>

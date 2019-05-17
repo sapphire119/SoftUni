@@ -1,0 +1,12 @@
+{{#each people}}
+    <div class="contact card">
+        <div>
+            <i class="far fa-user-circle gravatar"></i>
+        </div>
+        <div class="info">
+            {{> personPartial }}
+        </div>
+    </div>
+{{else}}
+    <p>No entries in collection</p>
+{{/each}}

@@ -1,0 +1,19 @@
+Problem 1
+	- Simple DOM manipulation
+	- Get elements from DOM
+	- Change elements
+	- Add button functionality
+Problem 2
+	- Unit testing (for class or function)
+	- Max 15 tests
+Problem 3
+	- Create class with fields and properties
+	- Getters and Setters
+	- Methods
+	- Store data
+	- Manipulate the data
+	- Validation for the fields
+Problem 4
+	- Advanced DOM and jQuery manipulations
+	- Events
+	- Add/Remove/Modify DOM elements

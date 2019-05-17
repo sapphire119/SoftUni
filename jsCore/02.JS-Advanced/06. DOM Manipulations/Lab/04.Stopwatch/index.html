@@ -1,0 +1,53 @@
+<div id="time" style="border:3px solid blue; text-align:center; font-size:2em; margin-bottom:10px">00:00</div>
+<button id="startBtn">Start</button>
+<button id="stopBtn" disabled="true">Stop</button>
+<script>
+    window.onload = function stopWatch() {
+        let startButtonElement = document.getElementById('startBtn');
+        startButtonElement.addEventListener('click', startCount);
+
+        let stopButtonElement = document.getElementById('stopBtn');
+        stopButtonElement.addEventListener('click', stopCount);
+
+        let obj = {};
+        function startCount(event) {
+            let minutes = 0;
+            let seconds = 0;
+            let timeElement = document.getElementById('time');
+            timeElement.textContent = `00:00`;
+            switchDisableAttribute(event, stopButtonElement);
+            obj.interval = setInterval(() => {
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+                let secondsStr = "";
+                if (seconds < 10){
+                    secondsStr = `0${seconds}`;
+                } else {
+                    secondsStr = `${seconds}`;
+                }
+
+                let minutesStr = "";
+                if (minutes < 10) {
+                    minutesStr = `0${minutes}`;
+                } else {
+                    minutesStr = `${minutes}`;
+                }
+
+                timeElement.textContent = `${minutesStr}:${secondsStr}`;
+            }, 1000);
+        }
+
+        function stopCount(event) {
+            switchDisableAttribute(event, startButtonElement);
+            clearInterval(obj.interval);
+        }
+
+        function switchDisableAttribute(event, currentButtonToEnable) {
+            event.target.setAttribute('disabled', 'true');
+            currentButtonToEnable.disabled = false;
+        }
+    }
+</script>

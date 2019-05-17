@@ -1,0 +1,36 @@
+<table border="1" id="customers">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    <tr>
+        <td>Eve</td>
+        <td>eve@gmail.com</td>
+    </tr>
+    <tr><td>Nick</td><td>nick@yahooo.com</td></tr>
+    <tr><td>Didi</td><td>didi@didi.net</td></tr>
+    <tr><td>Tedy</td><td>tedy@tedy.com</td></tr>
+</table>
+Email: <input type="text" name="email" />
+<button onclick="deleteByEmail()">Delete</button>
+<div id="result"></div>
+<script>
+    function deleteByEmail() {
+        let tableElement = document.getElementById('customers');
+        let rowElements = Array.from(tableElement.children[0].children);
+        rowElements.splice(0, 1);
+
+        let valueToSearchFor = document.getElementsByName('email')[0].value;
+        let message = "Not found.";
+        for (const rowElement of rowElements) {
+            let textContentOfElements = Array.from(rowElement.children)
+                .map(c => c.textContent)
+                .reduce((a, b) => a + ' ' + b);
+            if (textContentOfElements.includes(valueToSearchFor)) {
+                rowElement.parentNode.removeChild(rowElement);
+                message = "Deleted.";
+            }
+        }
+        document.getElementById('result').textContent = message;
+    }
+</script>

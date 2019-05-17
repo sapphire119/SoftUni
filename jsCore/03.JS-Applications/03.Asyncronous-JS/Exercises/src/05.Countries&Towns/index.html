@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Countries & Towns</title>
+    <script src="../jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <script src="../bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<h1>All Countries</h1>
+<div class="container-fluid row">
+    <div class="col-md-6">
+        <ul id="countries">
+        </ul>
+        <button class="bg-success text-white rounded" id="btnLoadCountries">Load Countries</button>
+        <h2>Create Country</h2>
+        Country: <input type="text" id="country"/>
+        <button id="btnCountryCreate" class="bg-success text-white rounded">Create</button>
+    </div>
+    <div class="col-md-6 ml-0" id="loadedCountry">
+    </div>
+</div>
+<script src="./solution.js"></script>
+<script>
+    attachEvents();
+</script>
+</body>
+</html>
