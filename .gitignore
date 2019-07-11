@@ -574,3 +574,8 @@ paket-files/
 
 # FAKE - F# Make
 .fake/
+
+# Ignore all .rar .zip .7z files
+*.7z
+*.rar
+*.zip
