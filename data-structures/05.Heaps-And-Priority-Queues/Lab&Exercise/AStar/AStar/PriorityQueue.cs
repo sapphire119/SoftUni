@@ -45,7 +45,8 @@ public class PriorityQueue<T> where T : IComparable<T>
 
     public void DecreaseKey(T item)
     {
-        throw new NotImplementedException();
+        var currentIndex = this.heap.IndexOf(item);
+        this.HeapifyUp(currentIndex);
     }
 
     private void HeapifyUp(int index)
@@ -97,15 +98,15 @@ public class PriorityQueue<T> where T : IComparable<T>
         return Left(index) + 1;
     }
 
-    private bool IsLess(int a, int b)
+    private bool IsLess(int childIndex, int parentIndex)
     {
-        return this.heap[a].CompareTo(this.heap[b]) < 0;
+        return this.heap[childIndex].CompareTo(this.heap[parentIndex]) < 0;
     }
 
-    private void Swap(int a, int b)
+    private void Swap(int childIndex, int parentIndex)
     {
-        T temp = this.heap[a];
-        this.heap[a] = this.heap[b];
-        this.heap[b] = temp;
+        T temp = this.heap[childIndex];
+        this.heap[childIndex] = this.heap[parentIndex];
+        this.heap[parentIndex] = temp;
     }
 }
