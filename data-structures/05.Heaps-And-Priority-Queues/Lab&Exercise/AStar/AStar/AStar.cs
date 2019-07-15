@@ -41,16 +41,17 @@ public class AStar
         var width = GetWidthValToNode(current, goal);
         var height = GetHeightValToNode(current, goal);
 
-        CalculateFCosts(height, width);
-
+        current.Hcost = CalculateFCosts(height, width);
 
         return current.Hcost;
     }
 
-    public static int GetG(Node current, Node goal)
+    public static int GetG(Node current, Node start)
     {
+        var width = GetWidthValToNode(current, start);
+        var height = GetHeightValToNode(current, start);
 
-        return current.Hcost;
+        return CalculateFCosts(height, width);
     }
 
     //public static int GetGCost(Node current, Node start)
@@ -93,9 +94,9 @@ public class AStar
         var startColumn = start.Column - 1 >= 0 ? start.Column - 1 : start.Column;
         var endColumn = start.Column + 1 < this.Map.GetLength(1) ? start.Column + 1 : start.Column;
 
-        for (int row = startRow; row < endRow; row++)
+        for (int row = startRow; row <= endRow; row++)
         {
-            for (int column = startColumn; column < endColumn; column++)
+            for (int column = startColumn; column <= endColumn; column++)
             {
                 var mapCell = this.Map[row, column];
                 var currentCellNode = this.NodeMap[row, column];
@@ -104,6 +105,8 @@ public class AStar
                 {
                     currentCellNode = new Node(row, column);
                     currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+
+                    this.NodeMap[row, column] = currentCellNode;
                     //var newFcost =    //Calculate new FCost
                     //if (currentCell.Fcost < newFcost)
                     //{
@@ -118,6 +121,8 @@ public class AStar
                 }
             }
         }
+
+        ;
         //CalculateFcostForNearbyCells(startRow, endRow, startColumn, endColumn, start, goal, this.Map);
 
     }
