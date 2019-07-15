@@ -14,9 +14,18 @@ public class Node : IComparable<Node>
 
     public int Fcost { get; set; }
 
+    public int Hcost { get; set; }
+
     public int CompareTo(Node other)
     {
-        return this.Fcost.CompareTo(other.Fcost);
+        var comparison = this.Fcost.CompareTo(other.Fcost);
+
+        if (comparison == 0)
+        {
+            return this.Hcost.CompareTo(other.Hcost);
+        }
+
+        return comparison;
     }
 
     public override bool Equals(object obj)

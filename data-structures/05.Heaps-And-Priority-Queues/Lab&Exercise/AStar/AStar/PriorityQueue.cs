@@ -20,6 +20,7 @@ public class PriorityQueue<T> where T : IComparable<T>
     {
         this.heap.Add(item);
         this.HeapifyUp(this.heap.Count - 1);
+
     }
 
     public T Peek()
@@ -46,6 +47,12 @@ public class PriorityQueue<T> where T : IComparable<T>
     public void DecreaseKey(T item)
     {
         var currentIndex = this.heap.IndexOf(item);
+
+        if (currentIndex < 0)
+        {
+            throw new InvalidOperationException();
+        }
+
         this.HeapifyUp(currentIndex);
     }
 

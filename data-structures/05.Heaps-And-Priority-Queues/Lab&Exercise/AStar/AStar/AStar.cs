@@ -10,44 +10,66 @@ public class AStar
     private const int NormalStep = 10;
     private const int DiagonalStep = 14;
 
-    public Node[,] Map { get; private set; }
+    public char[,] Map { get; private set; }
+
+    public Node[,] NodeMap { get; set; }
 
     public AStar(char[,] map)
     {
-        this.Map = new Node[map.GetLength(0), map.GetLength(1)];
-        SetMap(map);
+        this.Map = map;
+        this.NodeMap = new Node[map.GetLength(0), map.GetLength(1)];
     }
 
-    private void SetMap(char[,] map)
+    //private void SetMap(char[,] map)
+    //{
+
+    //    for (int i = 0; i < map.GetLength(0); i++)
+    //    {
+    //        for (int j = 0; j < map.GetLength(1); j++)
+    //        {
+    //            if (map[i, j] == 'W')
+    //            {
+    //                continue;
+    //            }
+    //            this.Map[i, j] = new Node(i, j);
+    //        }
+    //    }
+    //}
+
+    public static int GetH(Node current, Node goal)
     {
-        for (int i = 0; i < map.GetLength(0); i++)
-        {
-            for (int j = 0; j < map.GetLength(1); j++)
-            {
-                if (map[i, j] == 'W')
-                {
-                    continue;
-                }
-                this.Map[i, j] = new Node(i, j);
-            }
-        }
+        var width = GetWidthValToNode(current, goal);
+        var height = GetHeightValToNode(current, goal);
+
+        CalculateFCosts(height, width);
+
+
+        return current.Hcost;
     }
 
-    public static int GetHCost(Node current, Node goal)
+    public static int GetG(Node current, Node goal)
     {
-        throw new NotImplementedException();
+
+        return current.Hcost;
     }
+
+    //public static int GetGCost(Node current, Node start)
+    //{
+    //    var height = GetHeightValToNode(current, start);
+    //    var width = GetWidthValToNode(current, start);
+
+
+    //    throw new NotImplementedException();
+    //}
 
     public IEnumerable<Node> GetPath(Node start, Node goal)
     {
-        int height = GetHeightValToNode(start, goal);
-        int width = GetWidthValToNode(start, goal);
+        var height = GetHeightValToNode(start, goal);
+        var width = GetWidthValToNode(start, goal);
 
         SetStartingFCost(start, goal, height, width);
 
-        //Collection
-        var pathList = new List<Node>() { start };
-
+        var pathList = new List<Node>();
         FindPath(start, goal, pathList);
 
         return pathList;
@@ -71,22 +93,28 @@ public class AStar
         var startColumn = start.Column - 1 >= 0 ? start.Column - 1 : start.Column;
         var endColumn = start.Column + 1 < this.Map.GetLength(1) ? start.Column + 1 : start.Column;
 
-        //priorityQueue.Enqueue(start);
-
         for (int row = startRow; row < endRow; row++)
         {
             for (int column = startColumn; column < endColumn; column++)
             {
-                var currentCell = this.Map[row, column];
-                if (currentCell != null)
+                var mapCell = this.Map[row, column];
+                var currentCellNode = this.NodeMap[row, column];
+
+                if (currentCellNode == null && mapCell != '*' && mapCell != 'P' && mapCell != 'W')
                 {
-                    var newFcost = 0;//;
-                    if (currentCell.Fcost < newFcost)
-                    {
-                        this.Map[row, column].Fcost = 14;////;
-                    }
+                    currentCellNode = new Node(row, column);
+                    currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+                    //var newFcost =    //Calculate new FCost
+                    //if (currentCell.Fcost < newFcost)
+                    //{
+                    //    currentCell.Fcost = 14;////;
+                    //}
 
                     //priorityQueue.Enqueue(currentCell); 
+                }
+                else if(currentCellNode != null && GetFcost(currentCellNode, start, goal) < currentCellNode.Fcost)
+                {
+                    currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
                 }
             }
         }
@@ -94,45 +122,49 @@ public class AStar
 
     }
 
-    private void SetStartingFCost(Node start, Node goal, int height = 0, int width = 0, int result = 0)
+    private int GetFcost(Node currentCell, Node start, Node goal)
     {
-        result = CalculateFCosts(height, width, result);
-
-        start.Fcost = result;
-        goal.Fcost = result;
-
-        this.Map[start.Row, start.Column] = start;
-        this.Map[goal.Row, goal.Column] = goal;
+        return AStar.GetH(currentCell, goal) + AStar.GetG(currentCell, start);
     }
 
-    private int CalculateFCosts(int height, int width, int result)
+    private void SetStartingFCost(Node start, Node goal, int height = 0, int width = 0)
+    {
+        var result = CalculateFCosts(height, width);
+
+        start.Fcost = result;
+        start.Hcost = result;
+
+        goal.Fcost = result;
+        goal.Hcost = 0;
+
+        this.NodeMap[start.Row, start.Column] = start;
+        this.NodeMap[goal.Row, goal.Column] = goal;
+    }
+
+    private static int CalculateFCosts(int height, int width)
     {
         if (width > height)
         {
-            result = CalculateHorizontalFcost(width, height);
+            return CalculateHorizontalFcost(width, height);
         }
         else if (width < height)
         {
-            result = CalculateVerticalFcost(width, height);
+            return CalculateVerticalFcost(width, height);
         }
         else
         {
-            result = CalculateDiagonalFcost(width, height);
+            return CalculateDiagonalFcost(width, height);
         }
-
-        return result;
     }
 
-    private int CalculateDiagonalFcost(int width, int height)
+    private static int CalculateDiagonalFcost(int width, int height)
     {
         var diagonalFcost = height * DiagonalStep;
 
         return diagonalFcost;
-        //start.Fcost = diagonalFcost;
-        //goal.Fcost = diagonalFcost;
     }
 
-    private int CalculateVerticalFcost(int width, int height)
+    private static int CalculateVerticalFcost(int width, int height)
     {
         var verticalSteps = height - width;
 
@@ -142,11 +174,9 @@ public class AStar
         var result = verticalStepsFcost + diagStepsFcost;
 
         return result;
-        //start.Fcost = verticalStepsFcost + diagStepsFcost;
-        //goal.Fcost = verticalStepsFcost + diagStepsFcost;
     }
 
-    private int CalculateHorizontalFcost(int width, int height)
+    private static int CalculateHorizontalFcost(int width, int height)
     {
         var horizontalStep = width - height;
 
@@ -156,7 +186,5 @@ public class AStar
         var result = horizontalStepsFcost + diagStepsFcost;
 
         return result;
-        //start.Fcost = horizontalStepsFcost + diagStepsFcost;
-        //goal.Fcost = horizontalStepsFcost + diagStepsFcost;
     }
 }
