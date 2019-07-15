@@ -10,7 +10,7 @@ public class Playground
                     { '-', '-', '-', '-', 'W', 'W', '-', '-' },
                     { '-', '-', '-', 'P', 'W', '-', '-', '-' },
                     { '-', '-', '-', '-', '-', '-', '-', '-' }
-         };
+    };
 
     static void Main()
     {
@@ -21,11 +21,11 @@ public class Playground
 
         var aStar = new AStar(map);
         var path = aStar.GetPath(start, goal);
-
+        
         foreach (var node in path)
         {
             var row = node.Row;
-            var col = node.Col;
+            var col = node.Column;
             map[row, col] = '@';
         }
 

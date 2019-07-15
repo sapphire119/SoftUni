@@ -12,7 +12,7 @@ public class AStarSearchTests
         var goal = new Node(0, 5);
 
         // Act
-        var h = AStar.GetH(current, goal);
+        var h = AStar.GetHCost(current, goal);
 
         // Assert
         Assert.AreEqual(5, h, "Wrong H cost");
@@ -26,7 +26,7 @@ public class AStarSearchTests
         var goal = new Node(5, 0);
 
         // Act
-        var h = AStar.GetH(current, goal);
+        var h = AStar.GetHCost(current, goal);
 
         // Assert
         Assert.AreEqual(5, h, "Wrong H cost");
@@ -39,7 +39,7 @@ public class AStarSearchTests
         var current = new Node(0, 0);
         var goal = new Node(5, 5);
 
-        var h = AStar.GetH(current, goal);
+        var h = AStar.GetHCost(current, goal);
 
         Assert.AreEqual(10, h, "Wrong H cost");
     }
