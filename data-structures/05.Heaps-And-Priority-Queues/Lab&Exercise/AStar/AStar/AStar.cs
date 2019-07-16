@@ -22,16 +22,25 @@ public class AStar
 
     public static int GetH(Node current, Node goal)
     {
-        //var width = GetWidthValToNode(current, goal);
-        //var height = GetHeightValToNode(current, goal);
+        var width = GetWidthValToNode(current, goal);
+        var height = GetHeightValToNode(current, goal);
 
-        //return CalculateFCosts(height, width);
-
-        return default(int);
+        return CalculateFCosts(height, width);
     }
 
     public static int GetG(Node current, Node previousNode)
     {
+        if (!current.Equals(previousNode))
+        {
+            var height = GetHeightValToNode(current, previousNode);
+            var width = GetWidthValToNode(current, previousNode);
+
+            var aculumatedGCost = previousNode.Gcost + CalculateFCosts(height, width);
+
+            return aculumatedGCost;
+        }
+
+        return current.Gcost;
         //if (current != previousNode)
         //{
         //    var width = GetWidthValToNode(current, previousNode);
@@ -44,7 +53,7 @@ public class AStar
 
         //return current.Hcost;
 
-        return default(int);
+        //return default(int);
     }
 
     public IEnumerable<Node> GetPath(Node start, Node goal)
@@ -56,17 +65,21 @@ public class AStar
 
         var priorityQueue = new PriorityQueue<Node>();
         FindPath(start, goal, priorityQueue);
+        
+        var path = GetPathNodes();
+        return path;
+    }
 
+    private IEnumerable<Node> GetPathNodes()
+    {
 
-        //var path = GetPathNodes(this.Map);
-        //return path;
         return default(IEnumerable<Node>);
     }
 
-    private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue /*Node nextNode*/ /*Node newNodeStart = default(Node), Node previousNode = default(Node)*/)
+    private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue, /*Node nextNode*/ Node newNodeStart = default(Node), Node previousNode = default(Node))
     {
-        var startRow = start.Row - 1 >= 0 ? start.Row - 1 : start.Row;
-        var endRow = start.Row + 1 < this.Map.GetLength(0) ? start.Row + 1 : start.Row;
+        var startRow = newNodeStart.Row - 1 >= 0 ? newNodeStart.Row - 1 : newNodeStart.Row;
+        var endRow = newNodeStart.Row + 1 < this.Map.GetLength(0) ? newNodeStart.Row + 1 : newNodeStart.Row;
 
         var startColumn = start.Column - 1 >= 0 ? start.Column - 1 : start.Column;
         var endColumn = start.Column + 1 < this.Map.GetLength(1) ? start.Column + 1 : start.Column;
@@ -81,9 +94,10 @@ public class AStar
                 if (currentCellNode == null && mapCell != '*' && mapCell != 'P' && mapCell != 'W')
                 {
                     currentCellNode = new Node(row, column);
+                    currentCellNode.Gcost = GetG(currentCellNode, );
+                    currentCellNode.Hcost = GetH(currentCellNode, goal);
 
-                    //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
-                    //currentCellNode.Hcost = GetH(currentCellNode, goal);
+                    currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
 
                     this.NodeMap[row, column] = currentCellNode;
 
@@ -93,6 +107,10 @@ public class AStar
                 {
                     //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
                     //currentCellNode.Hcost = GetH(currentCellNode, goal);
+                    currentCellNode.Gcost = GetG(currentCellNode, );
+                    currentCellNode.Hcost = GetH(currentCellNode, goal);
+
+                    currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
 
                     priorityQueue.DecreaseKey(currentCellNode);
                 }
