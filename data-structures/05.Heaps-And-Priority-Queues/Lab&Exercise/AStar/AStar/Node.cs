@@ -16,6 +16,8 @@ public class Node : IComparable<Node>
 
     public int Hcost { get; set; }
 
+    public int Gcost { get; set; }
+
     public int CompareTo(Node other)
     {
         var comparison = this.Fcost.CompareTo(other.Fcost);

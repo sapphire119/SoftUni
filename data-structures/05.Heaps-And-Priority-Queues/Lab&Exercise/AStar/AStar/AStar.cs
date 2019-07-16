@@ -20,48 +20,32 @@ public class AStar
         this.NodeMap = new Node[map.GetLength(0), map.GetLength(1)];
     }
 
-    //private void SetMap(char[,] map)
-    //{
-
-    //    for (int i = 0; i < map.GetLength(0); i++)
-    //    {
-    //        for (int j = 0; j < map.GetLength(1); j++)
-    //        {
-    //            if (map[i, j] == 'W')
-    //            {
-    //                continue;
-    //            }
-    //            this.Map[i, j] = new Node(i, j);
-    //        }
-    //    }
-    //}
-
     public static int GetH(Node current, Node goal)
     {
-        var width = GetWidthValToNode(current, goal);
-        var height = GetHeightValToNode(current, goal);
+        //var width = GetWidthValToNode(current, goal);
+        //var height = GetHeightValToNode(current, goal);
 
-        current.Hcost = CalculateFCosts(height, width);
+        //return CalculateFCosts(height, width);
 
-        return current.Hcost;
+        return default(int);
     }
 
-    public static int GetG(Node current, Node start)
+    public static int GetG(Node current, Node previousNode)
     {
-        var width = GetWidthValToNode(current, start);
-        var height = GetHeightValToNode(current, start);
+        //if (current != previousNode)
+        //{
+        //    var width = GetWidthValToNode(current, previousNode);
+        //    var height = GetHeightValToNode(current, previousNode);
+        //    var test = CalculateFCosts(height, width);
 
-        return CalculateFCosts(height, width);
+        //    return test;
+        //}
+
+
+        //return current.Hcost;
+
+        return default(int);
     }
-
-    //public static int GetGCost(Node current, Node start)
-    //{
-    //    var height = GetHeightValToNode(current, start);
-    //    var width = GetWidthValToNode(current, start);
-
-
-    //    throw new NotImplementedException();
-    //}
 
     public IEnumerable<Node> GetPath(Node start, Node goal)
     {
@@ -70,23 +54,16 @@ public class AStar
 
         SetStartingFCost(start, goal, height, width);
 
-        var pathList = new List<Node>();
-        FindPath(start, goal, pathList);
+        var priorityQueue = new PriorityQueue<Node>();
+        FindPath(start, goal, priorityQueue);
 
-        return pathList;
+
+        //var path = GetPathNodes(this.Map);
+        //return path;
+        return default(IEnumerable<Node>);
     }
 
-    private static int GetWidthValToNode(Node firstNode, Node secondNode)
-    {
-        return Math.Abs(firstNode.Column - secondNode.Column);
-    }
-
-    private static int GetHeightValToNode(Node firstNode, Node secondNode)
-    {
-        return Math.Abs(firstNode.Row - secondNode.Row);
-    }
-
-    private void FindPath(Node start, Node goal, List<Node> pathList)
+    private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue /*Node nextNode*/ /*Node newNodeStart = default(Node), Node previousNode = default(Node)*/)
     {
         var startRow = start.Row - 1 >= 0 ? start.Row - 1 : start.Row;
         var endRow = start.Row + 1 < this.Map.GetLength(0) ? start.Row + 1 : start.Row;
@@ -104,32 +81,56 @@ public class AStar
                 if (currentCellNode == null && mapCell != '*' && mapCell != 'P' && mapCell != 'W')
                 {
                     currentCellNode = new Node(row, column);
-                    currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+
+                    //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+                    //currentCellNode.Hcost = GetH(currentCellNode, goal);
 
                     this.NodeMap[row, column] = currentCellNode;
-                    //var newFcost =    //Calculate new FCost
-                    //if (currentCell.Fcost < newFcost)
-                    //{
-                    //    currentCell.Fcost = 14;////;
-                    //}
 
-                    //priorityQueue.Enqueue(currentCell); 
+                    priorityQueue.Enqueue(currentCellNode);
                 }
-                else if(currentCellNode != null && GetFcost(currentCellNode, start, goal) < currentCellNode.Fcost)
+                else if(currentCellNode != null  && GetFcost(currentCellNode, start, goal) < currentCellNode.Fcost)
                 {
-                    currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+                    //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
+                    //currentCellNode.Hcost = GetH(currentCellNode, goal);
+
+                    priorityQueue.DecreaseKey(currentCellNode);
+                }
+                else if (mapCell == '*')
+                {
+                    ////
+                    return;
                 }
             }
         }
 
-        ;
+        FindPath(start, goal, priorityQueue /* priorityQueue.Dequeue()*/);
         //CalculateFcostForNearbyCells(startRow, endRow, startColumn, endColumn, start, goal, this.Map);
-
     }
+
+    //private void SetCosts(Node currentCellNode, Node previousNode, Node goal)
+    //{
+    //    currentCellNode.Gcost = GetG(currentCellNode, previousNode);
+    //    currentCellNode.Hcost = GetH(currentCellNode, goal);
+
+    //    currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
+    //    //currentCellNode.Hcost = GetH(currentCellNode, goal);
+    //}
 
     private int GetFcost(Node currentCell, Node start, Node goal)
     {
-        return AStar.GetH(currentCell, goal) + AStar.GetG(currentCell, start);
+        var result = AStar.GetH(currentCell, goal) + AStar.GetG(currentCell, start);
+        return result;
+    }
+
+    private static int GetWidthValToNode(Node firstNode, Node secondNode)
+    {
+        return Math.Abs(firstNode.Column - secondNode.Column);
+    }
+
+    private static int GetHeightValToNode(Node firstNode, Node secondNode)
+    {
+        return Math.Abs(firstNode.Row - secondNode.Row);
     }
 
     private void SetStartingFCost(Node start, Node goal, int height = 0, int width = 0)
