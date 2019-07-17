@@ -41,19 +41,6 @@ public class AStar
         }
 
         return current.Gcost;
-        //if (current != previousNode)
-        //{
-        //    var width = GetWidthValToNode(current, previousNode);
-        //    var height = GetHeightValToNode(current, previousNode);
-        //    var test = CalculateFCosts(height, width);
-
-        //    return test;
-        //}
-
-
-        //return current.Hcost;
-
-        //return default(int);
     }
 
     public IEnumerable<Node> GetPath(Node start, Node goal)
@@ -64,47 +51,25 @@ public class AStar
         SetStartingFCost(start, goal, height, width);
 
         var priorityQueue = new PriorityQueue<Node>();
+        
         FindPath(start, goal, priorityQueue, start);
-
-        var pathNodes = new List<Node>() { goal };
-        GetPathNodes(goal, start, pathNodes, goal);
-
+        
+        var pathNodes = GetPathNodes(goal);
+        
         return pathNodes;
     }
 
-    private void GetPathNodes(Node endNode, Node start, List<Node> pathNodes, Node previousNode = null)
+    private IEnumerable<Node> GetPathNodes(Node goal)
     {
-        //This is wrong
-        var startRow = endNode.Row - 1 >= 0 ? endNode.Row - 1 : endNode.Row;
-        var endRow = endNode.Row + 1 < this.Map.GetLength(0) ? endNode.Row + 1 : endNode.Row;
+        var pathList = new List<Node>();
 
-        var startColumn = endNode.Column - 1 >= 0 ? endNode.Column - 1 : endNode.Column;
-        var endColumn = endNode.Column + 1 < this.Map.GetLength(1) ? endNode.Column + 1 : endNode.Column;
-
-        Node cellMinFcost = endNode;
-        for (int row = startRow; row <= endRow; row++)
+        while (goal != null)
         {
-            for (int column = startColumn; column <= endColumn; column++)
-            {
-                var currentCellNode = this.NodeMap[row, column];
-                if (currentCellNode != null && 
-                    !currentCellNode.Equals(cellMinFcost) && 
-                    currentCellNode.Fcost <= cellMinFcost.Fcost &&
-                    !currentCellNode.Equals(previousNode))
-                {
-                    previousNode = cellMinFcost;
-                    cellMinFcost = currentCellNode;
-                    pathNodes.Add(cellMinFcost);
-                }
-            }
+            pathList.Add(goal);
+            goal = goal.PreviousNode;
         }
 
-        if (cellMinFcost.Equals(start))
-        {
-            return;
-        }
-
-        GetPathNodes(cellMinFcost, start, pathNodes, previousNode);
+        return pathList;
     }
 
     private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue, Node newNodeStart = default(Node))
@@ -130,18 +95,20 @@ public class AStar
 
                     currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
 
+                    currentCellNode.PreviousNode = newNodeStart;
+
                     this.NodeMap[row, column] = currentCellNode;
 
                     priorityQueue.Enqueue(currentCellNode);
                 }
                 else if(currentCellNode != null && GetFcost(currentCellNode, newNodeStart, goal) < currentCellNode.Fcost)
                 {
-                    //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
-                    //currentCellNode.Hcost = GetH(currentCellNode, goal);
                     currentCellNode.Gcost = GetG(currentCellNode, newNodeStart);
                     currentCellNode.Hcost = GetH(currentCellNode, goal);
 
                     currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
+
+                    currentCellNode.PreviousNode = newNodeStart;
 
                     priorityQueue.DecreaseKey(currentCellNode);
                 }
@@ -149,23 +116,15 @@ public class AStar
                 {
                     goal.Gcost = GetG(goal, newNodeStart);
                     goal.Fcost = goal.Gcost + goal.Hcost;
+
+                    goal.PreviousNode = newNodeStart;
                     return;
                 }
             }
         }
 
         FindPath(start, goal, priorityQueue, priorityQueue.Dequeue());
-        //CalculateFcostForNearbyCells(startRow, endRow, startColumn, endColumn, start, goal, this.Map);
     }
-
-    //private void SetCosts(Node currentCellNode, Node previousNode, Node goal)
-    //{
-    //    currentCellNode.Gcost = GetG(currentCellNode, previousNode);
-    //    currentCellNode.Hcost = GetH(currentCellNode, goal);
-
-    //    currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
-    //    //currentCellNode.Hcost = GetH(currentCellNode, goal);
-    //}
 
     private int GetFcost(Node currentCell, Node start, Node goal)
     {
