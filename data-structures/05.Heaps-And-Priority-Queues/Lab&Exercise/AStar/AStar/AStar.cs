@@ -10,9 +10,9 @@ public class AStar
     private const int NormalStep = 10;
     private const int DiagonalStep = 14;
 
-    public char[,] Map { get; private set; }
+    private char[,] Map { get; set; }
 
-    public Node[,] NodeMap { get; set; }
+    private Node[,] NodeMap { get; set; }
 
     public AStar(char[,] map)
     {
@@ -25,7 +25,10 @@ public class AStar
         var width = GetWidthValToNode(current, goal);
         var height = GetHeightValToNode(current, goal);
 
-        return CalculateFCosts(height, width);
+        var result = width + height;
+
+        return result;
+        //return CalculateFCosts(height, width);
     }
 
     public static int GetG(Node current, Node previousNode)
@@ -35,7 +38,9 @@ public class AStar
             var height = GetHeightValToNode(current, previousNode);
             var width = GetWidthValToNode(current, previousNode);
 
-            var aculumatedGCost = previousNode.Gcost + CalculateFCosts(height, width);
+
+            //var aculumatedGCost = previousNode.Gcost + CalculateFCosts(height, width);
+            var aculumatedGCost = previousNode.Gcost + height + width;
 
             return aculumatedGCost;
         }
@@ -45,22 +50,129 @@ public class AStar
 
     public IEnumerable<Node> GetPath(Node start, Node goal)
     {
-        var height = GetHeightValToNode(start, goal);
-        var width = GetWidthValToNode(start, goal);
+        Node nodeGoal = null;
+        try
+        {
+            nodeGoal = this.NodeMap[goal.Row, goal.Column];
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            return new List<Node> { start };
+        }
 
-        SetStartingFCost(start, goal, height, width);
+        if (nodeGoal == null)
+        {
+            var height = GetHeightValToNode(start, goal);
+            var width = GetWidthValToNode(start, goal);
 
-        var priorityQueue = new PriorityQueue<Node>();
+            SetStartingFCost(start, goal, height, width);
+
+            var priorityQueue = new PriorityQueue<Node>();
+
+            //FindPath(start, goal, priorityQueue, start);
+            FindSimplePath(start, goal, priorityQueue, start);
+
+            nodeGoal = goal;
+        }
+
+        var pathNodes = GetPathNodes(nodeGoal, start);
         
-        FindPath(start, goal, priorityQueue, start);
-        
-        var pathNodes = GetPathNodes(goal);
-        
-        return pathNodes;
+        return pathNodes.Reverse();
     }
 
-    private IEnumerable<Node> GetPathNodes(Node goal)
+    private void FindSimplePath(Node start, Node goal, PriorityQueue<Node> priorityQueue, Node newNodeStart = default(Node),
+        bool isGoalFound = false)
     {
+        var startRow = newNodeStart.Row - 1 >= 0 ? newNodeStart.Row - 1 : newNodeStart.Row;
+        var endRow = newNodeStart.Row + 1 < this.Map.GetLength(0) ? newNodeStart.Row + 1 : newNodeStart.Row;
+
+        var startColumn = newNodeStart.Column - 1 >= 0 ? newNodeStart.Column - 1 : newNodeStart.Column;
+        var endColumn = newNodeStart.Column + 1 < this.Map.GetLength(1) ? newNodeStart.Column + 1 : newNodeStart.Column;
+
+
+        for (int row = startRow; row <= endRow; row++)
+        {
+            var currentCol = newNodeStart.Column;
+
+            char mapCell = this.Map[row, currentCol];
+            Node currentCellNode = this.NodeMap[row, currentCol];
+
+            if (row == newNodeStart.Row && !isGoalFound)
+            {
+                for (int column = startColumn; column <= endColumn; column++)
+                {
+                    mapCell = this.Map[row, column];
+                    currentCellNode = this.NodeMap[row, column];
+
+                    isGoalFound = FindGoal(currentCellNode, mapCell, newNodeStart, row, column, priorityQueue, goal);
+
+                    if (isGoalFound)
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                isGoalFound = FindGoal(currentCellNode, mapCell, newNodeStart, row, currentCol, priorityQueue, goal);
+            }
+
+            if (isGoalFound)
+            {
+                return;
+            }
+        }
+
+        FindSimplePath(start, goal, priorityQueue, priorityQueue.Dequeue());
+    }
+
+    private bool FindGoal(Node currentCellNode, char mapCell, Node newNodeStart, int row, int column, 
+        PriorityQueue<Node> priorityQueue, Node goal)
+    {
+        if (currentCellNode == null && mapCell != 'P' && mapCell != 'W')
+        {
+            currentCellNode = new Node(row, column);
+            currentCellNode.Gcost = GetG(currentCellNode, newNodeStart);
+            currentCellNode.Hcost = GetH(currentCellNode, goal);
+
+            currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
+
+            currentCellNode.PreviousNode = newNodeStart;
+
+            this.NodeMap[row, column] = currentCellNode;
+
+            priorityQueue.Enqueue(currentCellNode);
+        }
+        else if (currentCellNode != null && GetFcost(currentCellNode, newNodeStart, goal) < currentCellNode.Fcost)
+        {
+            currentCellNode.Gcost = GetG(currentCellNode, newNodeStart);
+            currentCellNode.Hcost = GetH(currentCellNode, goal);
+
+            currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
+
+            currentCellNode.PreviousNode = newNodeStart;
+
+            priorityQueue.DecreaseKey(currentCellNode);
+        }
+        else if (currentCellNode != null && currentCellNode.Equals(goal))
+        {
+            goal.Gcost = GetG(goal, newNodeStart);
+            goal.Fcost = goal.Gcost + goal.Hcost;
+
+            goal.PreviousNode = newNodeStart;
+            return true;
+        }
+
+        return false;
+    }
+
+    private IEnumerable<Node> GetPathNodes(Node goal, Node start)
+    {
+        if (goal.PreviousNode == null)
+        {
+            return new List<Node>() { start };
+        }
+
         var pathList = new List<Node>();
 
         while (goal != null)
@@ -144,7 +256,8 @@ public class AStar
 
     private void SetStartingFCost(Node start, Node goal, int height = 0, int width = 0)
     {
-        var result = CalculateFCosts(height, width);
+        var result = height + width;
+        //var result = CalculateFCosts(height, width);
 
         start.Fcost = result;
         start.Hcost = result;
