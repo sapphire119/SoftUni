@@ -64,25 +64,56 @@ public class AStar
         SetStartingFCost(start, goal, height, width);
 
         var priorityQueue = new PriorityQueue<Node>();
-        FindPath(start, goal, priorityQueue);
-        
-        var path = GetPathNodes();
-        return path;
+        FindPath(start, goal, priorityQueue, start);
+
+        var pathNodes = new List<Node>() { goal };
+        GetPathNodes(goal, start, pathNodes, goal);
+
+        return pathNodes;
     }
 
-    private IEnumerable<Node> GetPathNodes()
+    private void GetPathNodes(Node endNode, Node start, List<Node> pathNodes, Node previousNode = null)
     {
+        //This is wrong
+        var startRow = endNode.Row - 1 >= 0 ? endNode.Row - 1 : endNode.Row;
+        var endRow = endNode.Row + 1 < this.Map.GetLength(0) ? endNode.Row + 1 : endNode.Row;
 
-        return default(IEnumerable<Node>);
+        var startColumn = endNode.Column - 1 >= 0 ? endNode.Column - 1 : endNode.Column;
+        var endColumn = endNode.Column + 1 < this.Map.GetLength(1) ? endNode.Column + 1 : endNode.Column;
+
+        Node cellMinFcost = endNode;
+        for (int row = startRow; row <= endRow; row++)
+        {
+            for (int column = startColumn; column <= endColumn; column++)
+            {
+                var currentCellNode = this.NodeMap[row, column];
+                if (currentCellNode != null && 
+                    !currentCellNode.Equals(cellMinFcost) && 
+                    currentCellNode.Fcost <= cellMinFcost.Fcost &&
+                    !currentCellNode.Equals(previousNode))
+                {
+                    previousNode = cellMinFcost;
+                    cellMinFcost = currentCellNode;
+                    pathNodes.Add(cellMinFcost);
+                }
+            }
+        }
+
+        if (cellMinFcost.Equals(start))
+        {
+            return;
+        }
+
+        GetPathNodes(cellMinFcost, start, pathNodes, previousNode);
     }
 
-    private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue, /*Node nextNode*/ Node newNodeStart = default(Node), Node previousNode = default(Node))
+    private void FindPath(Node start, Node goal, PriorityQueue<Node> priorityQueue, Node newNodeStart = default(Node))
     {
         var startRow = newNodeStart.Row - 1 >= 0 ? newNodeStart.Row - 1 : newNodeStart.Row;
         var endRow = newNodeStart.Row + 1 < this.Map.GetLength(0) ? newNodeStart.Row + 1 : newNodeStart.Row;
 
-        var startColumn = start.Column - 1 >= 0 ? start.Column - 1 : start.Column;
-        var endColumn = start.Column + 1 < this.Map.GetLength(1) ? start.Column + 1 : start.Column;
+        var startColumn = newNodeStart.Column - 1 >= 0 ? newNodeStart.Column - 1 : newNodeStart.Column;
+        var endColumn = newNodeStart.Column + 1 < this.Map.GetLength(1) ? newNodeStart.Column + 1 : newNodeStart.Column;
 
         for (int row = startRow; row <= endRow; row++)
         {
@@ -94,7 +125,7 @@ public class AStar
                 if (currentCellNode == null && mapCell != '*' && mapCell != 'P' && mapCell != 'W')
                 {
                     currentCellNode = new Node(row, column);
-                    currentCellNode.Gcost = GetG(currentCellNode, );
+                    currentCellNode.Gcost = GetG(currentCellNode, newNodeStart);
                     currentCellNode.Hcost = GetH(currentCellNode, goal);
 
                     currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
@@ -103,11 +134,11 @@ public class AStar
 
                     priorityQueue.Enqueue(currentCellNode);
                 }
-                else if(currentCellNode != null  && GetFcost(currentCellNode, start, goal) < currentCellNode.Fcost)
+                else if(currentCellNode != null && GetFcost(currentCellNode, newNodeStart, goal) < currentCellNode.Fcost)
                 {
                     //currentCellNode.Fcost = GetFcost(currentCellNode, start, goal);
                     //currentCellNode.Hcost = GetH(currentCellNode, goal);
-                    currentCellNode.Gcost = GetG(currentCellNode, );
+                    currentCellNode.Gcost = GetG(currentCellNode, newNodeStart);
                     currentCellNode.Hcost = GetH(currentCellNode, goal);
 
                     currentCellNode.Fcost = currentCellNode.Gcost + currentCellNode.Hcost;
@@ -116,13 +147,14 @@ public class AStar
                 }
                 else if (mapCell == '*')
                 {
-                    ////
+                    goal.Gcost = GetG(goal, newNodeStart);
+                    goal.Fcost = goal.Gcost + goal.Hcost;
                     return;
                 }
             }
         }
 
-        FindPath(start, goal, priorityQueue /* priorityQueue.Dequeue()*/);
+        FindPath(start, goal, priorityQueue, priorityQueue.Dequeue());
         //CalculateFcostForNearbyCells(startRow, endRow, startColumn, endColumn, start, goal, this.Map);
     }
 
