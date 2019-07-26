@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 {
     private Node root;
+    private const bool Red = true;
+    private const bool Black = false;
 
     private Node FindElement(T element)
     {
@@ -44,7 +46,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
         if (node == null)
         {
-            node = new Node(element);
+            node = new Node(element, Red);
         }
         else if (element.CompareTo(node.Value) < 0)
         {
@@ -328,15 +330,76 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         return this.Select(this.Rank(element) - 1);
     }
 
-    private class Node
+    private bool IsRed(Node node)
     {
-        public Node(T value)
+        if (node == null)
+        {
+            return false;
+        }
+
+        return node.Color == Red;
+    }
+
+    private Node RotateLeft(Node currentNode)
+    {
+        Node temp = currentNode;
+        Node node = temp.Right;
+
+        temp.Right = null;
+        node.Left = SetLeftNode(temp, node.Left);
+
+        node.Count = 1 + this.Count(node.Left) + this.Count(node.Right);
+
+        return node;
+    }
+
+    private Node SetLeftNode(Node temp, Node left)
+    {
+        temp.Right = left;
+        return temp;
+    }
+
+    private Node RotateRight(Node currentNode)
+    {
+        Node temp = currentNode;
+        Node node = temp.Left;
+
+        temp.Left = null;
+        node.Right = SetRightNode(temp, node.Right);
+
+        node.Count = 1 + this.Count(node.Left) + this.Count(node.Right);
+
+        return node;
+    }
+
+    private Node SetRightNode(Node temp, Node right)
+    {
+        temp.Left = right;
+
+        return temp;
+    }
+
+    public void FlipColours(Node node)
+    {
+        node.Color = Black;
+        node.Left.Color = Red;
+        node.Right.Color = Red;
+    }
+
+    public class Node
+    {
+        public Node(T value, bool color)
         {
             this.Value = value;
+            this.Color = color;
         }
 
         public T Value { get; }
+
+        public bool Color { get; set; }
+
         public Node Left { get; set; }
+
         public Node Right { get; set; }
 
         public int Count { get; set; }
@@ -348,6 +411,39 @@ public class Launcher
 {
     public static void Main(string[] args)
     {
+        var rbt = new RedBlackTree<int>();
 
+        //LEFT
+        //rbt.Insert(3);
+        //rbt.Insert(1);
+        //rbt.Insert(6);
+        //rbt.Insert(5);
+        //rbt.Insert(8);
+        //rbt.Insert(7);
+        //rbt.Insert(8);
+        //rbt.Insert(9);
+        //rbt.Insert(10);
+
+        //RIGHT
+        //rbt.Insert(12);
+        //rbt.Insert(14);
+        //rbt.Insert(5);
+        //rbt.Insert(6);
+        //rbt.Insert(3);
+        //rbt.Insert(8);
+        //rbt.Insert(7);
+
+        //RIGHT-LEFT
+        rbt.Insert(3);
+        rbt.Insert(2);
+        rbt.Insert(8);
+        rbt.Insert(1);
+        rbt.Insert(14);
+        rbt.Insert(6);
+        rbt.Insert(5);
+        rbt.Insert(7);
+        //LEFT-RIGHT
+
+        var nodeToRotate = new RedBlackTree<int>.Node(6, true);
     }
 }
