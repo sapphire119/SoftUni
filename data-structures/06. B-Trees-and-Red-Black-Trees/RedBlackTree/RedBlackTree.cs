@@ -42,19 +42,19 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         this.PreOrderCopy(node.Right);
     }
 
-    private Node Insert(T element, Node node)
+    private Node Insert(T element, Node node, Node previousNode = null)
     {
         if (node == null)
         {
-            node = new Node(element, Red);
+            node = new Node(element, Red, previousNode);
         }
         else if (element.CompareTo(node.Value) < 0)
         {
-            node.Left = this.Insert(element, node.Left);
+            node.Left = this.Insert(element, node.Left, node);
         }
         else if (element.CompareTo(node.Value) > 0)
         {
-            node.Right = this.Insert(element, node.Right);
+            node.Right = this.Insert(element, node.Right, node);
         }
 
         node.Count = 1 + this.Count(node.Left) + this.Count(node.Right);
@@ -118,7 +118,234 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
     public void Insert(T element)
     {
+        //root is black
+        //only red or black nodes
+        //nulls are black
+        //cannot have two consquitve red nodes
+        //Every path from root-leaf must have the same number of black nodes
+        //Every insertion is a red node
         this.root = this.Insert(element, this.root);
+
+        SetRootBlack(this.root);
+        //BalanceTree();
+
+        ResolveNode(this.root, element);
+
+        //check for conflicts
+
+
+        //when adding a node we should check if there are two consequite reds
+        //if there are check aunt 
+        //if aunt is red -> ColorFlip
+        //if aunt is black -> rotate
+        //  after rotate -> fix colors
+
+        //check if tree violetes any rule: (has two consecutive RED nodes) (root is not black)
+        //if there are -> find the conflict node
+        //get its parent and grandparent, look at the aunt
+        //    if last node is Left look at right subNode aunt
+        //    if last node is Right look at left subNode aunt
+        //if aunt is red -> ColourFlip
+        //if aunt is black -> Rotate
+        //if ROTATION
+        //Determine Directions with method IsInLeft(parent)
+        //var leftParent = ...;
+        //var leftGrandParent = ...;
+        //if left, left -> Right rotate
+        //if right, right -> Left rotate
+        //if left, right -> L-R 
+        //  check notes
+        //if right, left -> R-L rotate
+        //  check notes
+
+        //check if tree has confclits
+        //if none -> return tree;
+
+
+
+        //var node = this.FindElement(element);
+        //CheckNode(node);
+
+        //CheckTree(this.root);
+        //while (true)
+        //{
+        //    var isRootRed = IsRed(this.root);
+        //    var areThereTwoConsequtiveRedNodes = AreThereTwoConsequtiveRedNodes(this.root);
+        //    var areNumberOfBlackNodesSameCount = AreNumberOfBlackNodesSameCount(this.root);
+
+        //    if (areThereTwoConsequtiveRedNodes)
+        //    {
+
+        //    }
+
+        //    if (!areNumberOfBlackNodesSameCount)
+        //    {
+
+
+        //    }
+
+        //    if (isRootRed)
+        //    {
+
+        //    }
+
+
+
+        //    if (!isRootRed && areNumberOfBlackNodesSameCount && !areThereTwoConsequtiveRedNodes)
+        //    {
+        //        break;
+        //    }
+        //}
+
+        //cannot have two consequite red nodes
+        //root needs to be black
+        //count of root-leaf should be the same
+        //nulls are black --> IsRed() method
+
+
+    }
+
+    private void SetRootBlack(Node root)
+    {
+        if (IsRed(this.root)) this.root.Color = Black;
+    }
+
+    private void ResolveNode(Node node, T elementValue)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        var comparison = elementValue.CompareTo(node.Value);
+
+        if (comparison < 0)
+        {
+            this.ResolveNode(node.Left, elementValue);
+        }
+        else if(comparison > 0)
+        {
+            this.ResolveNode(node.Right, elementValue);
+        }
+        else
+        {
+            if (IsRed(node.PreviousNode))
+            {
+                var child = node;
+                var parent = node.PreviousNode;
+                var grandParent = node.PreviousNode.PreviousNode;
+
+                var isChildLeft = IsInLeftChild(parent, child);
+                var isParentLeft = IsInLeftChild(grandParent, parent);
+
+                var isAuntRedNode = IsAuntRed(grandParent, isParentLeft);
+
+                if (isAuntRedNode)
+                {
+                    FlipColours(grandParent);
+                }
+                else
+                {
+                    Rotate(isChildLeft, isParentLeft, grandParent);
+                    AfterRotationFlip(parent);
+                    //Rotate
+                    //FixColors
+                }
+
+                //if (isChildLeft && isParentLeft) RotateLeft(grandParent);
+                //if (!isChildLeft && !isParentLeft) RotateRight(grandParent);
+                //if (!isChildLeft && isParentLeft) /*R-L rotate*/ 
+                //if (isChildLeft && !isParentLeft) L-R rotate
+            }
+        }
+    }
+
+    private void Rotate(bool isChildLeft, bool isParentLeft, Node grandParent)
+    {
+        var previousGpNode = grandParent.PreviousNode;
+
+        if (isChildLeft && isParentLeft)
+        {
+            grandParent = RotateRight(grandParent);
+
+            FixRightRefsAfterRotate(previousGpNode, grandParent);
+        }
+        else if (!isChildLeft && !isParentLeft)
+        {
+            grandParent = RotateLeft(grandParent);
+
+            FixLeftRefsAfterRotate(previousGpNode, grandParent);
+        }
+        else if (isChildLeft && !isParentLeft) //R-L rotate{
+        {
+            grandParent.Right = RotateRight(grandParent.Right);
+            grandParent.Right.PreviousNode = grandParent;
+
+            grandParent = RotateLeft(grandParent);
+
+            FixLeftRefsAfterRotate(previousGpNode, grandParent);
+        }
+        else if (!isChildLeft && isParentLeft) //L-R rotate
+        {
+            grandParent.Left = RotateLeft(grandParent.Left);
+            grandParent.Left.PreviousNode = grandParent;
+
+            grandParent = RotateRight(grandParent);
+
+            FixRightRefsAfterRotate(previousGpNode, grandParent);
+        }
+    }
+
+    private void FixLeftRefsAfterRotate(Node previousNode, Node grandParent)
+    {
+        if (previousNode != null)
+        {
+            previousNode.Left = grandParent; 
+        }
+        grandParent.PreviousNode = previousNode;
+    }
+
+    private void FixRightRefsAfterRotate(Node previousNode, Node grandParentNode)
+    {
+        if (previousNode != null)
+        {
+            previousNode.Right = grandParentNode;
+        }
+        grandParentNode.PreviousNode = previousNode;
+    }
+
+    private bool IsAuntRed(Node grandParent, bool isParentLeft)
+    {
+        if (isParentLeft)
+        {
+            return IsRed(grandParent.Right);
+        }
+        else
+        {
+            return IsRed(grandParent.Left);
+        }
+    }
+
+    public void SandBox(Node node)
+    {
+        Rotate(true, false, node);
+        //var test = this.IsAuntRed(this.root, IsInLeftChild(this.root, this.root.Left));
+        //var test1 = this.IsAuntRed(this.root, IsInLeftChild(this.root, this.root.Right));
+    }
+
+    public void CheckNode(Node node)
+    {
+
+    }
+
+    public bool IsInLeftChild(Node parent, Node current)
+    {
+        if (parent.Left == current)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public bool Contains(T element)
@@ -347,8 +574,10 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
         temp.Right = null;
         node.Left = SetLeftNode(temp, node.Left);
+        node.Left.PreviousNode = node;
 
         node.Count = 1 + this.Count(node.Left) + this.Count(node.Right);
+        node.PreviousNode = null;
 
         return node;
     }
@@ -366,8 +595,11 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
         temp.Left = null;
         node.Right = SetRightNode(temp, node.Right);
+        node.Right.PreviousNode = node;
 
         node.Count = 1 + this.Count(node.Left) + this.Count(node.Right);
+        node.PreviousNode = null;
+
 
         return node;
     }
@@ -379,19 +611,31 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         return temp;
     }
 
-    public void FlipColours(Node node)
+    private Node AfterRotationFlip(Node node)
     {
         node.Color = Black;
         node.Left.Color = Red;
         node.Right.Color = Red;
+
+        return node;
+    }
+
+    private void FlipColours(Node node)
+    {
+        node.Color = Red;
+        node.Left.Color = Black;
+        node.Right.Color = Black;
+
+        //return node;
     }
 
     public class Node
     {
-        public Node(T value, bool color)
+        public Node(T value, bool color, Node previousNode)
         {
             this.Value = value;
             this.Color = color;
+            this.PreviousNode = previousNode;
         }
 
         public T Value { get; }
@@ -401,6 +645,8 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         public Node Left { get; set; }
 
         public Node Right { get; set; }
+
+        public Node PreviousNode { get; set; }
 
         public int Count { get; set; }
     }
@@ -438,12 +684,20 @@ public class Launcher
         rbt.Insert(2);
         rbt.Insert(8);
         rbt.Insert(1);
-        rbt.Insert(14);
         rbt.Insert(6);
         rbt.Insert(5);
+        rbt.Insert(14);
         rbt.Insert(7);
         //LEFT-RIGHT
 
-        var nodeToRotate = new RedBlackTree<int>.Node(6, true);
+        var nodeToRotate = new RedBlackTree<int>.Node(3, true, null);
+        var nodeToRotate1 = new RedBlackTree<int>.Node(8, true, nodeToRotate);
+        var nodeToRotate2 = new RedBlackTree<int>.Node(6, true, nodeToRotate1);
+
+        nodeToRotate.Right = nodeToRotate1;
+        nodeToRotate1.Left = nodeToRotate2;
+
+        rbt.SandBox(nodeToRotate);
+        //rbt.CheckNode(nodeToRotate);
     }
 }
