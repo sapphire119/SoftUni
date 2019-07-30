@@ -253,16 +253,20 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
                     if ((isChildLeft && isParentLeft) || (!isChildLeft && !isParentLeft))
                     {
-                        AfterRotationFlip(parent);
+                        SetNewRoot(parent);
+                        AfterRotationFlipOfColors(parent);
                         this.ResolveNode(this.root, parent.Value);
                         //this.ResolveNode(this.root, parent.Value);
                     }
                     else
                     {
-                        AfterRotationFlip(child);
+                        SetNewRoot(child);
+                        AfterRotationFlipOfColors(child);
                         this.ResolveNode(this.root, child.Value);
                         //this.ResolveNode(this.root, child.Value);
                     }
+
+                    ;
                     //Rotate
                     //FixColors
                 }
@@ -271,6 +275,14 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
                 //if (!isChildLeft && isParentLeft) /*R-L rotate*/ 
                 //if (isChildLeft && !isParentLeft) L-R rotate
             }
+        }
+    }
+
+    private void SetNewRoot(Node newRoot)
+    {
+        if (newRoot != null && newRoot.PreviousNode == null && (newRoot.Left == this.root || newRoot.Right == this.root))
+        {
+            this.root = newRoot;
         }
     }
 
@@ -308,6 +320,8 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
             FixLeftRefsAfterRotate(previousGpNode, grandParent);
         }
+
+        grandParent.Count = 1 + this.Count(grandParent.Left) + this.Count(grandParent.Right);
     }
 
     private void FixLeftRefsAfterRotate(Node previousNode, Node grandParent)
@@ -646,7 +660,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         return temp;
     }
 
-    private void AfterRotationFlip(Node node)
+    private void AfterRotationFlipOfColors(Node node)
     {
         node.Color = Black;
         node.Left.Color = Red;
