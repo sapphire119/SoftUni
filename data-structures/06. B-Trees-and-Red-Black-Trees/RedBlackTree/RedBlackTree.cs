@@ -228,7 +228,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         }
         else
         {
-            if (IsRed(node.PreviousNode))
+            if (IsRed(node.PreviousNode) && IsRed(node))
             {
                 var child = node;
                 var parent = node.PreviousNode;
@@ -244,6 +244,8 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
                     FlipColours(grandParent);
 
                     this.SetRootBlack(this.root);
+
+                    this.ResolveNode(this.root, grandParent.Value);
                 }
                 else
                 {
@@ -280,13 +282,13 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         {
             grandParent = RotateRight(grandParent);
 
-            FixRightRefsAfterRotate(previousGpNode, grandParent);
+            FixLeftRefsAfterRotate(previousGpNode, grandParent);
         }
         else if (!isChildLeft && !isParentLeft)
         {
             grandParent = RotateLeft(grandParent);
 
-            FixLeftRefsAfterRotate(previousGpNode, grandParent);
+            FixRightRefsAfterRotate(previousGpNode, grandParent);
         }
         else if (isChildLeft && !isParentLeft) //R-L rotate{
         {
@@ -597,7 +599,17 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
     private Node SetLeftNode(Node temp, Node left)
     {
+        if (left != null)
+        {
+            left.PreviousNode = null; 
+        }
         temp.Right = left;
+
+        if (temp.Right != null)
+        {
+            temp.Right.PreviousNode = temp; 
+        }
+
         return temp;
     }
 
@@ -620,18 +632,25 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
     private Node SetRightNode(Node temp, Node right)
     {
+        if (right != null)
+        {
+            right.PreviousNode = null; 
+        }
         temp.Left = right;
+
+        if (temp.Left != null)
+        {
+            temp.Left.PreviousNode = temp; 
+        }
 
         return temp;
     }
 
-    private Node AfterRotationFlip(Node node)
+    private void AfterRotationFlip(Node node)
     {
         node.Color = Black;
         node.Left.Color = Red;
         node.Right.Color = Red;
-
-        return node;
     }
 
     private void FlipColours(Node node)
