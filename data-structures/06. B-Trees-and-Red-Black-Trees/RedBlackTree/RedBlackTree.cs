@@ -5,6 +5,9 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 {
     private Node root;
     private Node currentNode;
+
+    private Node deletionNode;
+    private Node replacement;
     private const bool Red = true;
     private const bool Black = false;
 
@@ -122,10 +125,10 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
         this.root = this.Insert(element, this.root);
         this.root.Color = Black;
-        InsertResolveOfNode(this.currentNode);
+        InsertResolutionOfNode(this.currentNode);
     }
 
-    private void InsertResolveOfNode(Node node)
+    private void InsertResolutionOfNode(Node node)
     {
         if (node == null)
         {
@@ -147,7 +150,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             {
                 FlipColours(grandParent);
                 this.root.Color = Black;
-                this.InsertResolveOfNode(grandParent);
+                this.InsertResolutionOfNode(grandParent);
             }
             else
             {
@@ -157,13 +160,13 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
                 {
                     SetNewRoot(parent);
                     AfterRotationFlipOfColors(parent);
-                    this.InsertResolveOfNode(parent);
+                    this.InsertResolutionOfNode(parent);
                 }
                 else
                 {
                     SetNewRoot(child);
                     AfterRotationFlipOfColors(child);
-                    this.InsertResolveOfNode(child);
+                    this.InsertResolutionOfNode(child);
                 }
             }
         }
@@ -327,6 +330,12 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         }
         this.root = this.Delete(element, this.root);
         this.root.Color = Black;
+        DeletionResolutionOfNode(this.deletionNode, this.replacement);
+    }
+
+    private void DeletionResolutionOfNode(Node deletionNode, Node replacement)
+    {
+        Node x = null;
 
     }
 
@@ -349,40 +358,45 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         }
         else
         {
-            //Check Part 1 of the three initial steps, get "replacement" and "x"
-            if (node.Left == null && node.Right == null)
-            {
-                //set x = null;
-                //set replacement = null;
-                //go to part 2 of steps
-                //Part2OfInitialSteps(node, replacement, x);
-            }
+            ////Check Part 1 of the three initial steps, get "replacement" and "x"
+            //if (node.Left == null && node.Right == null)
+            //{
+            //    //set x = null;
+            //    //set replacement = null;
+            //    //go to part 2 of steps
+            //    //Part2OfInitialSteps(node, replacement, x);
+            //}
 
-            if (node.Left == null || node.Right == null)
-            {
-                //set replacement = node.Left == null ? node.Right : node.Left;
-                //set x = replacement;
-                //go to part 2 of steps
-                //Part2OfInitialSteps(node, replacement, x);
-            }
+            //if (node.Left == null || node.Right == null)
+            //{
+            //    //set replacement = node.Left == null ? node.Right : node.Left;
+            //    //set x = replacement;
+            //    //go to part 2 of steps
+            //    //Part2OfInitialSteps(node, replacement, x);
+            //}
 
-            if (node.Left != null && node.Right != null)
-            {
-                //set replacemnt = this.FindMin(node.Right);
-                //set x = replacement.Right;
-                //go to part 2 of steps
-                //Part2OfInitialSteps(node, replacement, x);
-            }
-            //Check Part 2 of the four initial steps
-            //set replacement = x;
-            //set node = replaceent;
-            //go to appropriate case if necessaary
+            //if (node.Left != null && node.Right != null)
+            //{
+            //    //set replacemnt = this.FindMin(node.Right);
+            //    //set x = replacement.Right;
+            //    //go to part 2 of steps
+            //    //Part2OfInitialSteps(node, replacement, x);
+            //}
+            ////Check Part 2 of the four initial steps
+            ////set replacement = x;
+            ////set node = replaceent;
+            ////go to appropriate case if necessaary
+            
+            this.deletionNode = node;
+
             if (node.Right == null)
             {
+                this.replacement = node.Left;
                 return node.Left;
             }
             if (node.Left == null)
             {
+                this.replacement = node.Right;
                 return node.Right;
             }
 
@@ -392,6 +406,8 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             node.Right = this.DeleteMin(temp.Right);
             node.Left = temp.Left;
 
+
+            this.replacement = node;
         }
 
         node.Count = this.Count(node.Left) + this.Count(node.Right) + 1;
@@ -724,7 +740,7 @@ public class Launcher
         rbt.Insert(9);
         rbt.Insert(10);
 
-        rbt.Delete(8);
+        rbt.Delete(10);
         //rbt.Delete(7);
         ;
     }
