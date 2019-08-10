@@ -332,20 +332,11 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         this.deletionNode = this.replacement = null;
 
         this.root = this.Delete(element, this.root);
+
+        this.replacement.PreviousNode = this.deletionNode.PreviousNode;
         this.root.Color = Black;
 
         DeletionResolutionOfNode(this.deletionNode, this.replacement);
-    }
-
-    private void DeletionResolutionOfNode(Node deletionNode, Node replacement)
-    {
-        Node nodeX = replacement;
-        if (deletionNode.Left != null && deletionNode.Right != null)
-        {
-            nodeX = replacement.Right;
-        }
-
-        Part2OfInitialSteps(deletionNode, replacement, nodeX);
     }
 
     private Node Delete(T element, Node node, Node previousNode = null)
@@ -395,20 +386,18 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             ////set replacement = x;
             ////set node = replaceent;
             ////go to appropriate case if necessaary
-            
+
             this.deletionNode = node;
 
             if (node.Right == null)
             {
                 this.replacement = node.Left;
-                this.replacement.PreviousNode = previousNode;
 
                 return node.Left;
             }
             if (node.Left == null)
             {
                 this.replacement = node.Right;
-                this.replacement.PreviousNode = previousNode;
 
                 return node.Right;
             }
@@ -420,12 +409,23 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             node.Left = temp.Left;
 
             this.replacement = node;
-            this.replacement.PreviousNode = previousNode;
         }
 
         node.Count = this.Count(node.Left) + this.Count(node.Right) + 1;
 
         return node;
+    }
+
+    private void DeletionResolutionOfNode(Node deletionNode, Node replacement)
+    {
+        Node nodeX = replacement;
+
+        if (deletionNode.Left != null && deletionNode.Right != null)
+        {
+            nodeX = replacement.Right;
+        }
+
+        Part2OfInitialSteps(deletionNode, replacement, nodeX);
     }
 
     private void Part2OfInitialSteps(Node deletionNode, Node replacement, Node nodeX)
@@ -755,19 +755,57 @@ public class Launcher
     public static void Main(string[] args)
     {
         var rbt = new RedBlackTree<int>();
-        rbt.Insert(3);
-        rbt.Insert(1);
-        rbt.Insert(5);
-        rbt.Insert(7);
-        ;
-        rbt.Insert(6);
-        ;
-        rbt.Insert(8);
-        rbt.Insert(9);
-        rbt.Insert(10);
 
-        rbt.Delete(9);
-        rbt.Delete(10);
+        //RBTree__1
+        //rbt.Insert(3);
+        //rbt.Insert(1);
+        //rbt.Insert(5);
+        //rbt.Insert(7);
+        //;
+        //rbt.Insert(6);
+        //;
+        //rbt.Insert(8);
+        //rbt.Insert(9);
+        //rbt.Insert(10);
+
+        //RBTree__2
+        //rbt.Insert(13);
+        //rbt.Insert(8);
+        //rbt.Insert(17);
+        //rbt.Insert(1);
+        //rbt.Insert(11);
+        //rbt.Insert(15);
+        //rbt.Insert(25);
+        //rbt.Insert(6);
+        //rbt.Insert(22);
+        //rbt.Insert(27);
+
+        //RBTree_3
+        //rbt.Insert(7);
+        //rbt.Insert(3);
+        //rbt.Insert(18);
+        //rbt.Insert(10);
+        //rbt.Insert(22);
+        //rbt.Insert(8);
+        //rbt.Insert(11);
+        //rbt.Insert(26);
+
+        //RBTreee_4
+        rbt.Insert(5);
+        rbt.Insert(2);
+        rbt.Insert(8);
+        rbt.Insert(1);
+        rbt.Insert(4);
+        rbt.Insert(7);
+        rbt.Insert(9);
+        rbt.Insert(0);
+
+        rbt.Delete(0);
+
+
+
+        //rbt.Delete(9);
+        //rbt.Delete(10);
         //rbt.Delete(8);
         ;
     }
