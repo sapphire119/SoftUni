@@ -328,18 +328,27 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         {
             throw new InvalidOperationException();
         }
+
+        this.deletionNode = this.replacement = null;
+
         this.root = this.Delete(element, this.root);
         this.root.Color = Black;
+
         DeletionResolutionOfNode(this.deletionNode, this.replacement);
     }
 
     private void DeletionResolutionOfNode(Node deletionNode, Node replacement)
     {
-        Node x = null;
+        Node nodeX = replacement;
+        if (deletionNode.Left != null && deletionNode.Right != null)
+        {
+            nodeX = replacement.Right;
+        }
 
+        Part2OfInitialSteps(deletionNode, replacement, nodeX);
     }
 
-    private Node Delete(T element, Node node)
+    private Node Delete(T element, Node node, Node previousNode = null)
     {
         if (node == null)
         {
@@ -350,11 +359,11 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
         if (compare < 0)
         {
-            node.Left = this.Delete(element, node.Left);
+            node.Left = this.Delete(element, node.Left, node);
         }
         else if (compare > 0)
         {
-            node.Right = this.Delete(element, node.Right);
+            node.Right = this.Delete(element, node.Right, node);
         }
         else
         {
@@ -392,11 +401,15 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             if (node.Right == null)
             {
                 this.replacement = node.Left;
+                this.replacement.PreviousNode = previousNode;
+
                 return node.Left;
             }
             if (node.Left == null)
             {
                 this.replacement = node.Right;
+                this.replacement.PreviousNode = previousNode;
+
                 return node.Right;
             }
 
@@ -406,8 +419,8 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             node.Right = this.DeleteMin(temp.Right);
             node.Left = temp.Left;
 
-
             this.replacement = node;
+            this.replacement.PreviousNode = previousNode;
         }
 
         node.Count = this.Count(node.Left) + this.Count(node.Right) + 1;
@@ -415,7 +428,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         return node;
     }
 
-    public void Part2OfInitialSteps(Node deletionNode, Node replacement, Node x)
+    private void Part2OfInitialSteps(Node deletionNode, Node replacement, Node nodeX)
     {
         if (IsRed(deletionNode) && (IsRed(replacement) || replacement == null))
         {
@@ -425,6 +438,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         if (IsRed(deletionNode) && !IsRed(replacement))
         {
             replacement.Color = Red;
+            
             //go to appropricate case
             //Cases()
         }
@@ -441,28 +455,29 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         }
     }
 
-    public void Cases(Node x, Node w, Node replacement = null)
+    private void Cases(Node nodeX, Node nodeW, Node replacement = null)
     {
-        if (IsRed(x))
+        if (IsRed(nodeX))
         {
-            x.Color = Black;
+            nodeX.Color = Black;
+            return;
             //Case 0
             //X is red
         }
 
-        if (!IsRed(x) && IsRed(w))
+        if (!IsRed(nodeX) && IsRed(nodeX.Sibling))
         {
-            w.Color = Black;
-            x.PreviousNode.Color = Red;
+            nodeW.Color = Black;
+            nodeX.PreviousNode.Color = Red;
 
-            var isXLeftChild = IsInLeftChild(replacement, x);
+            var isXLeftChild = IsInLeftChild(nodeX.PreviousNode, nodeX);
             if (isXLeftChild)
             {
-                x.PreviousNode = RotateLeft(x);
+                nodeX.PreviousNode = RotateLeft(nodeX);
             }
             else
             {
-                x.PreviousNode = RotateRight(x);
+                nodeX.PreviousNode = RotateRight(nodeX);
             }
 
 
@@ -470,16 +485,16 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             //Node "x" is BLACK & "w" is RED
         }
 
-        if (!IsRed(x) && !IsRed(w) && !IsRed(w.Left) && !IsRed(w.Right))
+        if (!IsRed(nodeX) && !IsRed(nodeW) && !IsRed(nodeW.Left) && !IsRed(nodeW.Right))
         {
             //Case 2
             //Node "x" is BLACK & "w" is BLACK & w.Left, w.Right == BLACK
 
         }
 
-        if (!IsRed(x) && !IsRed(w) && (
-            (IsInLeftChild(replacement, x) && IsRed(w.Left) && !IsRed(w.Right)) ||
-            (!IsInLeftChild(replacement, x) && IsRed(w.Right) && !IsRed(w.Left)) )
+        if (!IsRed(nodeX) && !IsRed(nodeW) && (
+            (IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Left) && !IsRed(nodeW.Right)) ||
+            (!IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Right) && !IsRed(nodeW.Left)) )
             )
         {
             //Case 3
@@ -488,9 +503,9 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             //   if "x" is the RIGHT child, "w"'s RIGHT child is RED & "w"'s LEFT child is BLACK
         }
 
-        if (!IsRed(x) && !IsRed(w) && (
-            (IsInLeftChild(replacement, x) && IsRed(w.Right)) ||
-            (!IsInLeftChild(replacement, x) && IsRed(w.Left)))
+        if (!IsRed(nodeX) && !IsRed(nodeW) && (
+            (IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Right)) ||
+            (!IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Left)))
             )
         {
             //Case 4
@@ -720,6 +735,17 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         public Node PreviousNode { get; set; }
 
         public int Count { get; set; }
+
+        public Node Sibling
+        {
+            get
+            {
+                Node siblingNode = this.PreviousNode == null ? null :
+                            this.PreviousNode.Right != this ? this.PreviousNode.Right : this.PreviousNode.Left;
+
+                return siblingNode;
+            }
+        }
     }
 
 }
@@ -740,8 +766,9 @@ public class Launcher
         rbt.Insert(9);
         rbt.Insert(10);
 
+        rbt.Delete(9);
         rbt.Delete(10);
-        //rbt.Delete(7);
+        //rbt.Delete(8);
         ;
     }
 }
