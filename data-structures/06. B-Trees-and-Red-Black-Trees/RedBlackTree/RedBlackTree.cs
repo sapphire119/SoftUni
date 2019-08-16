@@ -6,8 +6,6 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     private Node root;
     private Node currentNode;
 
-    private Node deletionNode;
-    private Node replacement;
     private const bool Red = true;
     private const bool Black = false;
 
@@ -329,17 +327,10 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             throw new InvalidOperationException();
         }
 
-        this.deletionNode = this.replacement = null;
-
         this.root = this.Delete(element, this.root);
-
-        this.replacement.PreviousNode = this.deletionNode.PreviousNode;
-        this.root.Color = Black;
-
-        DeletionResolutionOfNode(this.deletionNode, this.replacement);
     }
 
-    private Node Delete(T element, Node node, Node previousNode = null)
+    private Node Delete(T element, Node node)
     {
         if (node == null)
         {
@@ -350,169 +341,31 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
         if (compare < 0)
         {
-            node.Left = this.Delete(element, node.Left, node);
+            node.Left = this.Delete(element, node.Left);
         }
         else if (compare > 0)
         {
-            node.Right = this.Delete(element, node.Right, node);
+            node.Right = this.Delete(element, node.Right);
         }
         else
         {
-            ////Check Part 1 of the three initial steps, get "replacement" and "x"
-            //if (node.Left == null && node.Right == null)
-            //{
-            //    //set x = null;
-            //    //set replacement = null;
-            //    //go to part 2 of steps
-            //    //Part2OfInitialSteps(node, replacement, x);
-            //}
-
-            //if (node.Left == null || node.Right == null)
-            //{
-            //    //set replacement = node.Left == null ? node.Right : node.Left;
-            //    //set x = replacement;
-            //    //go to part 2 of steps
-            //    //Part2OfInitialSteps(node, replacement, x);
-            //}
-
-            //if (node.Left != null && node.Right != null)
-            //{
-            //    //set replacemnt = this.FindMin(node.Right);
-            //    //set x = replacement.Right;
-            //    //go to part 2 of steps
-            //    //Part2OfInitialSteps(node, replacement, x);
-            //}
-            ////Check Part 2 of the four initial steps
-            ////set replacement = x;
-            ////set node = replaceent;
-            ////go to appropriate case if necessaary
-
-            this.deletionNode = node;
 
             if (node.Right == null)
             {
-                this.replacement = node.Left;
-
                 return node.Left;
             }
             if (node.Left == null)
             {
-                this.replacement = node.Right;
-
                 return node.Right;
             }
-
-            Node temp = node;
-
-            node = this.FindMin(temp.Right);
-            node.Right = this.DeleteMin(temp.Right);
-            node.Left = temp.Left;
-
-            this.replacement = node;
+            
+            node.Value = (this.FindMin(node.Right)).Value;
+            node.Right = this.Delete(node.Value, node.Right);
         }
 
         node.Count = this.Count(node.Left) + this.Count(node.Right) + 1;
 
         return node;
-    }
-
-    private void DeletionResolutionOfNode(Node deletionNode, Node replacement)
-    {
-        Node nodeX = replacement;
-
-        if (deletionNode.Left != null && deletionNode.Right != null)
-        {
-            nodeX = replacement.Right;
-        }
-
-        Part2OfInitialSteps(deletionNode, replacement, nodeX);
-    }
-
-    private void Part2OfInitialSteps(Node deletionNode, Node replacement, Node nodeX)
-    {
-        if (IsRed(deletionNode) && (IsRed(replacement) || replacement == null))
-        {
-            return;
-        }
-
-        if (IsRed(deletionNode) && !IsRed(replacement))
-        {
-            replacement.Color = Red;
-            
-            //go to appropricate case
-            //Cases()
-        }
-
-        if (!IsRed(deletionNode) && IsRed(replacement))
-        {
-            replacement.Color = Black;
-            return;
-        }
-
-        if (!IsRed(deletionNode) && (!IsRed(replacement) || replacement == null))
-        {
-            //go to appropriate case
-        }
-    }
-
-    private void Cases(Node nodeX, Node nodeW, Node replacement = null)
-    {
-        if (IsRed(nodeX))
-        {
-            nodeX.Color = Black;
-            return;
-            //Case 0
-            //X is red
-        }
-
-        if (!IsRed(nodeX) && IsRed(nodeX.Sibling))
-        {
-            nodeW.Color = Black;
-            nodeX.PreviousNode.Color = Red;
-
-            var isXLeftChild = IsInLeftChild(nodeX.PreviousNode, nodeX);
-            if (isXLeftChild)
-            {
-                nodeX.PreviousNode = RotateLeft(nodeX);
-            }
-            else
-            {
-                nodeX.PreviousNode = RotateRight(nodeX);
-            }
-
-
-            //Case 1
-            //Node "x" is BLACK & "w" is RED
-        }
-
-        if (!IsRed(nodeX) && !IsRed(nodeW) && !IsRed(nodeW.Left) && !IsRed(nodeW.Right))
-        {
-            //Case 2
-            //Node "x" is BLACK & "w" is BLACK & w.Left, w.Right == BLACK
-
-        }
-
-        if (!IsRed(nodeX) && !IsRed(nodeW) && (
-            (IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Left) && !IsRed(nodeW.Right)) ||
-            (!IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Right) && !IsRed(nodeW.Left)) )
-            )
-        {
-            //Case 3
-            //Node "x" is BLACK & its sibling "w" is BLACK &
-            //   if "x" is the LEFT child, "w"'s LEFT child is RED & "w"'s RIGHT child is BLACK
-            //   if "x" is the RIGHT child, "w"'s RIGHT child is RED & "w"'s LEFT child is BLACK
-        }
-
-        if (!IsRed(nodeX) && !IsRed(nodeW) && (
-            (IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Right)) ||
-            (!IsInLeftChild(replacement, nodeX) && IsRed(nodeW.Left)))
-            )
-        {
-            //Case 4
-            //Node "x" is BLACK & its sibling "w" is BLACK &
-            //   if "x" is the LEFT child, "w"'s RIGHT child is RED
-            //   if "x" is the RIGHT child, "w"'s LEFT child is RED
-        }
     }
 
     private Node FindMin(Node node)
@@ -724,7 +577,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             this.PreviousNode = previousNode;
         }
 
-        public T Value { get; }
+        public T Value { get; set; }
 
         public bool Color { get; set; }
 
