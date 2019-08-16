@@ -9,24 +9,15 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     private const bool Red = true;
     private const bool Black = false;
 
-    private Node FindElement(T element)
+    private Node FindElement(T element, Node current)
     {
-        Node current = this.root;
-
-        while (current != null)
+        if (current.Value.CompareTo(element) > 0)
         {
-            if (current.Value.CompareTo(element) > 0)
-            {
-                current = current.Left;
-            }
-            else if (current.Value.CompareTo(element) < 0)
-            {
-                current = current.Right;
-            }
-            else
-            {
-                break;
-            }
+            current = this.FindElement(element, current.Left);
+        }
+        else if (current.Value.CompareTo(element) < 0)
+        {
+            current = this.FindElement(element, current.Right);
         }
 
         return current;
@@ -220,7 +211,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
         if (previousNode != null)
         {
-            previousNode.Left = grandParent; 
+            previousNode.Left = grandParent;
         }
         grandParent.PreviousNode = previousNode;
     }
@@ -270,7 +261,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
     public bool Contains(T element)
     {
-        Node current = this.FindElement(element);
+        Node current = this.FindElement(element, this.root);
 
         return current != null;
     }
@@ -282,7 +273,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
 
     public IBinarySearchTree<T> Search(T element)
     {
-        Node current = this.FindElement(element);
+        Node current = this.FindElement(element, this.root);
 
         return new RedBlackTree<T>(current);
     }
@@ -327,7 +318,45 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             throw new InvalidOperationException();
         }
 
-        this.root = this.Delete(element, this.root);
+        var nodeToBeDeleted = this.FindElement(element, this.root);
+
+        DeleteNode(nodeToBeDeleted);
+
+        //this.root = this.Delete(element, this.root);
+    }
+
+    private void SwapNodeValues(Node nodeToDelete, Node replacement)
+    {
+        var temp = nodeToDelete.Value;
+        nodeToDelete.Value = replacement.Value;
+        replacement.Value = temp;
+    }
+
+    public void DeleteNode(Node u)
+    {
+        var v = this.FindReplacement(u);
+
+        var uvColor = !IsRed(u) && !IsRed(v);
+        var parent = u.PreviousNode;
+
+
+
+        SwapNodeValues(u, v);
+        this.DeleteNode(v);
+    }
+
+    public Node FindReplacement(Node deletionNode)
+    {
+        if (deletionNode.Right == null)
+        {
+            return deletionNode.Left;
+        }
+        if (deletionNode.Left == null)
+        {
+            return deletionNode.Right;
+        }
+
+        return this.FindMin(deletionNode.Right);
     }
 
     private Node Delete(T element, Node node)
@@ -349,7 +378,6 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         }
         else
         {
-
             if (node.Right == null)
             {
                 return node.Left;
@@ -358,7 +386,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
             {
                 return node.Right;
             }
-            
+
             node.Value = (this.FindMin(node.Right)).Value;
             node.Right = this.Delete(node.Value, node.Right);
         }
@@ -507,13 +535,13 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
         if (left != null)
         {
-            left.PreviousNode = null; 
+            left.PreviousNode = null;
         }
         temp.Right = left;
 
         if (temp.Right != null)
         {
-            temp.Right.PreviousNode = temp; 
+            temp.Right.PreviousNode = temp;
         }
 
         return temp;
@@ -540,13 +568,13 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
         if (right != null)
         {
-            right.PreviousNode = null; 
+            right.PreviousNode = null;
         }
         temp.Left = right;
 
         if (temp.Left != null)
         {
-            temp.Left.PreviousNode = temp; 
+            temp.Left.PreviousNode = temp;
         }
 
         return temp;
@@ -622,16 +650,19 @@ public class Launcher
         //rbt.Insert(10);
 
         //RBTree__2
-        //rbt.Insert(13);
-        //rbt.Insert(8);
-        //rbt.Insert(17);
-        //rbt.Insert(1);
-        //rbt.Insert(11);
-        //rbt.Insert(15);
-        //rbt.Insert(25);
-        //rbt.Insert(6);
-        //rbt.Insert(22);
-        //rbt.Insert(27);
+        rbt.Insert(13);
+        rbt.Insert(8);
+        rbt.Insert(17);
+        rbt.Insert(1);
+        rbt.Insert(11);
+        rbt.Insert(15);
+        rbt.Insert(25);
+        rbt.Insert(6);
+        rbt.Insert(22);
+        rbt.Insert(27);
+
+        rbt.Delete(17);
+        ;
 
         //RBTree_3
         //rbt.Insert(7);
@@ -644,16 +675,25 @@ public class Launcher
         //rbt.Insert(26);
 
         //RBTreee_4
-        rbt.Insert(5);
-        rbt.Insert(2);
-        rbt.Insert(8);
-        rbt.Insert(1);
-        rbt.Insert(4);
-        rbt.Insert(7);
-        rbt.Insert(9);
-        rbt.Insert(0);
+        //rbt.Insert(5);
+        //rbt.Insert(2);
+        //rbt.Insert(8);
+        //rbt.Insert(1);
+        //rbt.Insert(4);
+        //rbt.Insert(7);
+        //rbt.Insert(9);
+        //rbt.Insert(0);
+        //rbt.Delete(0);
 
-        rbt.Delete(0);
+        //RBTree_5
+
+        //rbt.Insert(30);
+        //rbt.Insert(20);
+        //rbt.Insert(40);
+        //rbt.Insert(50);
+        //rbt.Insert(10);
+
+        //rbt.Delete(20);
 
 
 
