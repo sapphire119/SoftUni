@@ -325,24 +325,74 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         //this.root = this.Delete(element, this.root);
     }
 
-    private void SwapNodeValues(Node nodeToDelete, Node replacement)
+    public void DeleteNode(Node v)
     {
-        var temp = nodeToDelete.Value;
-        nodeToDelete.Value = replacement.Value;
-        replacement.Value = temp;
+        var u = this.FindReplacement(v);
+
+        var uvColor = !IsRed(v) && !IsRed(u);
+        var parent = v.PreviousNode;
+
+        //node V is leaf
+        if (u == null)
+        {
+            if (v == this.root)
+            {
+                this.root = null;
+                return;
+            }
+            else
+            {
+                if (uvColor)
+                {
+                    FixDoubleBlack(v);
+                }
+                else
+                {
+                    if (v.Sibling != null)
+                    {
+                        v.Sibling.Color = Red;
+                    }
+
+                    if (IsInLeftChild(parent, v))
+                    {
+                        parent.Left = null;
+                    }
+                    else
+                    {
+                        parent.Right = null;
+                    }
+                }
+            }
+            return;
+        }
+
+        //One child
+        if (v.Left == null || v.Right == null)
+        {
+            if (uvColor)
+            {
+                FixDoubleBlack(v);
+            }
+            else
+            {
+
+            }
+        }
+
+        SwapNodeValues(v, u);
+        this.DeleteNode(u);
     }
 
-    public void DeleteNode(Node u)
+    private void SwapNodeValues(Node v, Node u)
     {
-        var v = this.FindReplacement(u);
+        var temp = u.Value;
+        u.Value = v.Value;
+        v.Value = temp;
+    }
 
-        var uvColor = !IsRed(u) && !IsRed(v);
-        var parent = u.PreviousNode;
-
-
-
-        SwapNodeValues(u, v);
-        this.DeleteNode(v);
+    private void FixDoubleBlack(Node v)
+    {
+        throw new NotImplementedException();
     }
 
     public Node FindReplacement(Node deletionNode)
@@ -650,18 +700,18 @@ public class Launcher
         //rbt.Insert(10);
 
         //RBTree__2
-        rbt.Insert(13);
-        rbt.Insert(8);
-        rbt.Insert(17);
-        rbt.Insert(1);
-        rbt.Insert(11);
-        rbt.Insert(15);
-        rbt.Insert(25);
-        rbt.Insert(6);
-        rbt.Insert(22);
-        rbt.Insert(27);
+        //rbt.Insert(13);
+        //rbt.Insert(8);
+        //rbt.Insert(17);
+        //rbt.Insert(1);
+        //rbt.Insert(11);
+        //rbt.Insert(15);
+        //rbt.Insert(25);
+        //rbt.Insert(6);
+        //rbt.Insert(22);
+        //rbt.Insert(27);
 
-        rbt.Delete(17);
+        //rbt.Delete(17);
         ;
 
         //RBTree_3
@@ -695,7 +745,11 @@ public class Launcher
 
         //rbt.Delete(20);
 
+        rbt.Insert(10);
+        rbt.Insert(7);
+        rbt.Insert(11);
 
+        rbt.Delete(7);
 
         //rbt.Delete(9);
         //rbt.Delete(10);
