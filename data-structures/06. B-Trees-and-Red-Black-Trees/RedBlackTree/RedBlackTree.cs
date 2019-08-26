@@ -248,7 +248,7 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
     {
 
     }
-
+    
     public bool IsInLeftChild(Node parent, Node current)
     {
         if (parent.Left == current)
@@ -369,14 +369,33 @@ public class RedBlackTree<T> : IBinarySearchTree<T> where T : IComparable
         //One child
         if (v.Left == null || v.Right == null)
         {
-            if (uvColor)
+            if (v == this.root)
             {
-                FixDoubleBlack(v);
+                v.Value = u.Value;
+                v.Left = v.Right = null;
             }
             else
             {
+                if (this.IsInLeftChild(parent, v))
+                {
+                    parent.Left = u;
+                }
+                else
+                {
+                    parent.Right = u;
+                }
 
+                u.PreviousNode = parent;
+                if (uvColor)
+                {
+                    FixDoubleBlack(u);
+                }
+                else
+                {
+                    u.Color = Black;
+                }
             }
+            return;
         }
 
         SwapNodeValues(v, u);
@@ -747,9 +766,9 @@ public class Launcher
 
         rbt.Insert(10);
         rbt.Insert(7);
-        rbt.Insert(11);
+        //rbt.Insert(11);
 
-        rbt.Delete(7);
+        rbt.Delete(10);
 
         //rbt.Delete(9);
         //rbt.Delete(10);
