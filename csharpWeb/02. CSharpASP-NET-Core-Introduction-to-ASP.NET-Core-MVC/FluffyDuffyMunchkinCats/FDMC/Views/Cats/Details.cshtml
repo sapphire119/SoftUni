@@ -1,0 +1,12 @@
+﻿@model FDMC.Models.Cat
+
+<h1>@Model.Name</h1>
+<img src="@Model.ImageUrl" alt="Cat pic"  width="300" height="300"/>
+<div>
+    <strong>@Model.Age</strong>
+</div>
+<div>
+    <strong>@Model.Breed</strong>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to main page</a>
