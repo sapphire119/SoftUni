@@ -11,6 +11,8 @@ using Panda.Helpers;
 using Panda.Data;
 using Microsoft.EntityFrameworkCore;
 using Panda.ViewModels;
+using Microsoft.Extensions.Configuration;
+using Panda.Services;
 
 namespace Panda.Controllers
 {
@@ -18,19 +20,30 @@ namespace Panda.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PandaDbContext _pandaDbContext;
+        private readonly ICounterService _counterService;
+
+        //private readonly IConfigurationRoot _configurationRoot;
 
         public HomeController(ILogger<HomeController> logger,
-            PandaDbContext pandaDbContext
+            PandaDbContext pandaDbContext,
+            ICounterService counterService
+            //IConfigurationRoot configurationRoot
             /*UserManager userManager, RoleManager roleManager, SignInManager signInManager*/)
         {
             _logger = logger;
             _pandaDbContext = pandaDbContext;
+            _counterService = counterService;
+            //_configurationRoot = configurationRoot;
         }
 
         public async Task<IActionResult> Index()
         {
-            var a = this.GetType().Assembly.FullName;
-
+            //var a = this.GetType().Assembly.FullName;
+            var a = this.ControllerContext.ValueProviderFactories;
+            var b = this.ControllerContext.ActionDescriptor;
+            var c = this.ControllerContext.RouteData;
+            //var test = _configurationRoot.Providers.ToList();
+            //;
             if (this.HttpContext.Session.IsUserLoggedIn())
             {
                 var userId = this.HttpContext.Session.Get<int>(Constants.UserId);

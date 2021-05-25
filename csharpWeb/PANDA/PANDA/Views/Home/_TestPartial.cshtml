@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<string>
+@inject Panda.Services.ICounterService counterService
 
-<h1>Bam bam</h1>
+Count: @counterService.GetCount()
 
 @foreach (var item in Model)
 {

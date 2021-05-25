@@ -4,6 +4,8 @@
 <h1 testing greeting-name="Pesho"></h1>
 <partial name="_TestPartial" model="@(new string[] { "assdasd", "pesho" })" />
 
+<partial name="_HostingPartial" />
+
 @if (this.Context.Session.Get<string>(Constants.Username) == null)
 {
     <div class="jumbotron mt-3 bg-panda">

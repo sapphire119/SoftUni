@@ -1,0 +1,24 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment environmentService
+@inject Microsoft.Extensions.Configuration.IConfiguration configuration
+<div>
+    <span>Environemnt current: @configuration["Environment:Current"]</span>
+</div>
+
+<div>
+    <span>Current Environment is: </span> @environmentService.EnvironmentName
+</div>
+<div>
+    <span>Current WebRootPath is: </span> @environmentService.WebRootPath
+</div>
+<div>
+    <span>Current WebRootFileProvider is: </span> @environmentService.WebRootFileProvider.GetType().ToString()
+</div>
+<div>
+    <span>Current ContentRootPath is: </span> @environmentService.ContentRootPath
+</div>
+<div>
+    <span>Current ContentRootFileProvider is: </span> @environmentService.ContentRootFileProvider.GetType().ToString()
+</div>
+<div>
+    <span>Current ApplicationName is: </span> @environmentService.ApplicationName
+</div>

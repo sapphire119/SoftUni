@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Panda.Data;
+using Panda.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,11 +41,18 @@ namespace Panda
             });
 
             services.AddControllersWithViews();
+
+            //services.AddTransient<ICounterService, CounterService>();
+            //services.AddScoped<ICounterService, CounterService>();
+            services.AddSingleton<ICounterService, CounterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var a = app;
+            var b = env;
+            ;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
