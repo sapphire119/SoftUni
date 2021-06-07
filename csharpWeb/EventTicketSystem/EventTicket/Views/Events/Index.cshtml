@@ -1,0 +1,36 @@
+﻿@model IEnumerable<EventTicket.Models.Event>
+
+@{ 
+    var iter = 1;
+}
+<div>
+    <div class="text-center">
+        <h1>All Events</h1>
+    </div>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
+                <th scope="col">Place</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var @event in Model)
+            {
+                <tr>
+                    <td>@iter</td>
+                    <td>@(@event.Name)</td>
+                    <td>@(@event.Start)</td>
+                    <td>@(@event.End)</td>
+                    <td>@(@event.Place)</td>
+                </tr>
+                iter++;
+            }
+        </tbody>
+    </table>
+    <hr />
+</div>

@@ -13,9 +13,13 @@ using Microsoft.EntityFrameworkCore;
 using Panda.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Panda.Services;
+using Panda.Filters;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Panda.Controllers
 {
+    //[GlobalHomeAtrribute]
+    //[AddHeader("X-Controller", "Home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -28,7 +32,10 @@ namespace Panda.Controllers
             PandaDbContext pandaDbContext,
             ICounterService counterService
             //IConfigurationRoot configurationRoot
-            /*UserManager userManager, RoleManager roleManager, SignInManager signInManager*/)
+           /* UserManager userManager, 
+            * RoleManager roleManager, 
+            * SignInManager signInManager
+            */)
         {
             _logger = logger;
             _pandaDbContext = pandaDbContext;
@@ -36,12 +43,15 @@ namespace Panda.Controllers
             //_configurationRoot = configurationRoot;
         }
 
+        [ServiceFilter(typeof(MyActionFilterAttribute) /*, Order = int.MinValue*/)]
         public async Task<IActionResult> Index()
         {
+            //throw new ArgumentException();
             //var a = this.GetType().Assembly.FullName;
             var a = this.ControllerContext.ValueProviderFactories;
             var b = this.ControllerContext.ActionDescriptor;
             var c = this.ControllerContext.RouteData;
+
             //var test = _configurationRoot.Providers.ToList();
             //;
             if (this.HttpContext.Session.IsUserLoggedIn())
@@ -65,15 +75,41 @@ namespace Panda.Controllers
             return View();
         }
 
+        //[TypeFilter()]
         public IActionResult Privacy()
         {
+            //throw new ArgumentException();
             return View();
+        }
+
+        //[AddHeader("X-Test", "gosho")]
+        public IActionResult FormData(FormInputModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.Content("invalid model data");
+            }
+
+            return this.Content("OK");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult MyStatusCode(int code)
+        {
+            return this.View(code);
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
         }
     }
 }

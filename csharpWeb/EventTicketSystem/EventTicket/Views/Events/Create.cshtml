@@ -1,0 +1,51 @@
+﻿@model EventTicket.ViewModels.EventsInputModel
+
+<div class="row">
+    <div class="text-center">
+        <h1>Create Event</h1>
+    </div>
+    <hr />
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Place"></label>
+                <input asp-for="Place" class="form-control" />
+                <span asp-validation-for="Place" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Start"></label>
+                <input asp-for="Start" class="form-control" placeholder="dd-MMM-yyyy HH:ss" />
+                <span asp-validation-for="Start" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="End"></label>
+                <input asp-for="End" class="form-control" placeholder="dd-MMM-yyyy HH:ss" />
+                <span asp-validation-for="End" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="TotalTickets"></label>
+                <input asp-for="TotalTickets" class="form-control" />
+                <span asp-validation-for="TotalTickets" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="PricePerTicket"></label>
+                <input asp-for="PricePerTicket" class="form-control" />
+                <span asp-validation-for="PricePerTicket" class="text-danger"></span>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </form>
+    </div>
+</div>

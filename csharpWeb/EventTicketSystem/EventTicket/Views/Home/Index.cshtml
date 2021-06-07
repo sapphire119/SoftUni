@@ -1,0 +1,26 @@
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model EventTicket.Models.User
+
+@using EventTicket.Models.Enums;
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@if (SignInManager.IsSignedIn(this.User))
+{
+    if (User.IsInRole(Role.Administrator.ToString()))
+    {
+        <partial name="./_Partials/_AdminPartial" model="@Model" />
+    }
+    else if (User.IsInRole(Role.User.ToString()))
+    {
+        <partial name="./_Partials/_UserPartial" />
+    }
+}
+else
+{
+    <partial name="./_Partials/_AnonUserPartial" />
+}
+
