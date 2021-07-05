@@ -64,6 +64,7 @@ namespace Panda.Filters
     {
         public void OnResultExecuting(ResultExecutingContext context)
         {
+            
         }
 
         public void OnResultExecuted(ResultExecutedContext context)

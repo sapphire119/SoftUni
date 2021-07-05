@@ -19,13 +19,13 @@ namespace EventTicket.Controllers
     [Authorize]
     public class EventsController : Controller
     {
-        private readonly IEventService _eventService;
+        //private readonly IEventService _eventService;
         private readonly ApplicationDbContext _context;
         private readonly ILogger<EventsController> _logger;
 
-        public EventsController(IEventService eventService, ApplicationDbContext context, ILogger<EventsController> logger)
+        public EventsController(/*IEventService eventService, */ApplicationDbContext context, ILogger<EventsController> logger)
         {
-            _eventService = eventService;
+            //_eventService = eventService;
             _context = context;
             _logger = logger;
         }
@@ -38,17 +38,25 @@ namespace EventTicket.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
-            _logger.LogDebug("Administrator accessed Event Create page");
+            //_logger.LogDebug("Administrator accessed Event Create page");
             return this.View();
         }
 
-        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Administrator")]
+        [HttpPost, AutoValidateAntiforgeryToken, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(LogFilter))]
         public async Task<IActionResult> Create(EventsInputModel model)
         {
-            var @event = _eventService.FetchEventModel(model, ModelState);
+            if (!ModelState.IsValid) return this.View();
 
-            if (ModelState.ErrorCount > 0) return this.View();
+            var @event = new Event
+            {
+                Name = model.Name,
+                PricePerTicket = model.PricePerTicket,
+                TotalTickets = model.TotalTickets,
+                Place = model.Place,
+                Start = model.Start.Value,
+                End = model.End.Value
+            };
 
             try
             {

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using EventTicket.Models.Enums;
+using EventTicket.Helpers;
 
 namespace EventTicket.Areas.Identity.Pages.Account
 {
@@ -46,6 +47,8 @@ namespace EventTicket.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [MinLength(3, ErrorMessage = GlobalConstants.UsernameMinLengthErrorMessage)]
+            [RegularExpression(@"^[a-zA-Z0-9-_.*~]+$", ErrorMessage = GlobalConstants.UsernameAllowedCharsErrorMessage)]
             public string Username { get; set; }
 
             [Display(Name = "First Name")]
@@ -54,6 +57,8 @@ namespace EventTicket.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
+            [Required]
+            [StringLength(10, MinimumLength = 10, ErrorMessage = GlobalConstants.UcnMinLengthErrorMessage)]
             public string UCN { get; set; }
 
             [Required]
@@ -62,14 +67,15 @@ namespace EventTicket.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
-            [DataType(DataType.Password)]
             [Display(Name = "Password")]
+            [DataType(DataType.Password)]
+            [MinLength(5, ErrorMessage = GlobalConstants.PasswordMinLengthErrorMessage)]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
+            [Required]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [DataType(DataType.Password)]
+            [Compare("Password", ErrorMessage = GlobalConstants.PasswordMismatchErrorMessage)]
             public string ConfirmPassword { get; set; }
         }
 

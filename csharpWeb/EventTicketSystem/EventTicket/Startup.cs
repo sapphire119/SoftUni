@@ -56,14 +56,15 @@ namespace EventTicket
             services.AddScoped<LogFilter>();
 
             services.AddScoped<IDbService, DBService>();
-            services.AddTransient<IEventService, EventService>();
+            
+            //services.AddTransient<IEventService, EventService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(new DeveloperExceptionPageOptions { SourceCodeLineCount = 50 });
                 app.UseMigrationsEndPoint();
             }
             else
@@ -86,6 +87,7 @@ namespace EventTicket
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapControllerRoute(
                     name: "error",
                     pattern: "/Error/{code}",

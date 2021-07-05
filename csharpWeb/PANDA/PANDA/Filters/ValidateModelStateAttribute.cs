@@ -40,8 +40,7 @@ namespace Panda.Filters
     public class ValidateModelStateAttribute : Attribute, IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
-        {
-            
+        {   
             //if (!context.ModelState.IsValid)
             //{
             //    context.Result = new JsonResult("Invalid Model state.");
@@ -50,6 +49,7 @@ namespace Panda.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+            
             //if (context.ModelState.IsValid)
             //{
             //    context.Result = new ContentResult { ContentType = "Invalid Model state." };

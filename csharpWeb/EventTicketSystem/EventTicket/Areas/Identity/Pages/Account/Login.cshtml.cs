@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using EventTicket.Helpers;
 
 namespace EventTicket.Areas.Identity.Pages.Account
 {
@@ -42,7 +43,6 @@ namespace EventTicket.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            //[EmailAddress]
             public string Username { get; set; }
 
             [Required]
